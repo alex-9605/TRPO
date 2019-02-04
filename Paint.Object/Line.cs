@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Paint.Object
 {
+    /// <summary>
+    /// Класс линия
+    /// </summary>
     class Line : Shape, IShape
     {
         protected Point start;
