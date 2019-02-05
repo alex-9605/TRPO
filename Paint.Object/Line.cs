@@ -12,10 +12,10 @@ namespace Paint.Object
     /// </summary>
     class Line : Shape, IShape
     {
-        protected Point start;
-        protected Point end;
+        private Point start;
+        private Point end;
 
-        public Line(Point start, Point end, int width, Color color, Color fillColor, LineType type)
+        private Line(Point start, Point end, int width, Color color, Color fillColor, LineType type)
             : base(width, color, fillColor, type)
         {
             this.start = start;

@@ -9,11 +9,11 @@ namespace Paint.Object
 {
     class Ellipse : Shape, IShape
     {
-        protected Point centre;
-        protected double radiusA;
-        protected double radiusB;
+        private Point centre;
+        private double radiusA;
+        private double radiusB;
 
-        public Ellipse(Point centre, double radiusA, double radiusB, 
+        private Ellipse(Point centre, double radiusA, double radiusB, 
             int width, Color color, Color fillColor, LineType type)
             : base(width, color, fillColor, type)
         {

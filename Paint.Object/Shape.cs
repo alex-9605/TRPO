@@ -9,10 +9,10 @@ namespace Paint.Object
 {
     abstract class Shape
     {
-        protected int width;
-        protected Color color;
-        protected Color fillColor;
-        protected LineType type;
+        private int width;
+        private Color color;
+        private Color fillColor;
+        private LineType type;
         public Shape(int width, Color color, Color fillColor, LineType type)
         {
             this.width = width;

@@ -9,10 +9,10 @@ namespace Paint.Object
 {
     class Circle : Shape, IShape
     {
-        protected Point centre;
-        protected double radius;
+        private Point centre;
+        private double radius;
 
-        public Circle (Point centre, double radius, 
+        private Circle (Point centre, double radius, 
             int width, Color color, Color fillColor, LineType type)
             : base(width, color, fillColor, type)
         {
