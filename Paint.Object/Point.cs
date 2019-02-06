@@ -3,20 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 
 namespace Paint.Object
 {
     public class Point : IShape
     {
-        private int x;
-        private int y;
+        private readonly Graphics graphics;
 
-        private Point(int x, int y)
+        private Point(Graphics graphics, int x, int y)
         {
-            this.x = x;
-            this.y = y;
+            this.graphics = graphics;
+            this.X = x;
+            this.Y = y;
         }
+
+        public int X { get; }
+        public int Y { get; }
 
         public void Draw()
         {

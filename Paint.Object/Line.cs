@@ -12,18 +12,21 @@ namespace Paint.Object
     /// </summary>
     class Line : Shape, IShape
     {
+        private readonly Graphics graphics;
         private Point start;
         private Point end;
 
-        private Line(Point start, Point end, int width, Color color, Color fillColor, LineType type)
+        private Line(Graphics graphics, Point start, Point end, int width, Color color, Color fillColor, LineType type)
             : base(width, color, fillColor, type)
         {
+            this.graphics = graphics;
             this.start = start;
             this.end = end;
         }
 
         public void Draw()
         {
+            this.graphics.DrawLine(this.pen, new System.Drawing.Point(this.start.X, this.start.Y), new System.Drawing.Point(this.end.X, this.end.Y));
         }
     }
 }
