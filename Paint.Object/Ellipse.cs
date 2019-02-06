@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Paint.Object
 {
-    class Ellipse : Shape, IShape
+    public class Ellipse : Shape, IShape
     {
         private readonly Graphics graphics;
         private Point centre;
         private double radiusA;
         private double radiusB;
 
-        private Ellipse(Graphics graphics, Point centre, double radiusA, double radiusB, 
+        public Ellipse(Graphics graphics, Point centre, double radiusA, double radiusB, 
             int width, Color color, Color fillColor, LineType type)
             : base(width, color, fillColor, type)
         {

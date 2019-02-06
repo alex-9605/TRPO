@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Paint.Object
 {
-    class Polygon : Polyline
+    public class Polygon : Polyline
     {
         private readonly Graphics graphics;
 

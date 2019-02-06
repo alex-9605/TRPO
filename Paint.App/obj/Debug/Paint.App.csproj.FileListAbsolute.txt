@@ -8,3 +8,6 @@ D:\ТРПО\Paint.App\obj\Debug\Paint.App.csproj.CoreCompileInputs.cache
 D:\ТРПО\Paint.App\obj\Debug\Paint.App.exe
 D:\ТРПО\Paint.App\obj\Debug\Paint.App.pdb
 D:\ТРПО\Paint.App\obj\Debug\Paint.App.Form1.resources
+D:\ТРПО\Paint.App\bin\Debug\Paint.Object.dll
+D:\ТРПО\Paint.App\bin\Debug\Paint.Object.pdb
+D:\ТРПО\Paint.App\obj\Debug\Paint.App.csproj.CopyComplete

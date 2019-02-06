@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Paint.Object
 {
-    class Circle : Shape, IShape
+    public class Circle : Shape, IShape
     {
         private readonly Graphics graphics;
         private Point centre;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Paint.Object
 {
-    class Polyline : Shape, IShape 
+    public class Polyline : Shape, IShape 
     {
         private readonly Graphics graphics;
         protected List<Point> points;

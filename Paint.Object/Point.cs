@@ -12,7 +12,7 @@ namespace Paint.Object
     {
         private readonly Graphics graphics;
 
-        private Point(Graphics graphics, int x, int y)
+        public Point(Graphics graphics, int x, int y)
         {
             this.graphics = graphics;
             this.X = x;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Paint.Object
 {
-    enum LineType
+    public enum LineType
     {
         Solid,
         Dashed

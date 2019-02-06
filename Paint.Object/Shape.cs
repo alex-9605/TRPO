@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Paint.Object
 {
-    abstract class Shape
+    public abstract class Shape
     {
         private int width;
         private Color color;
