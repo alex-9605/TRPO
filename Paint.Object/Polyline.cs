@@ -26,7 +26,8 @@ namespace Paint.Object
 
         public virtual void Draw()
         {
-            this.graphics.DrawLines(this.pen, this.points.Select(p => new System.Drawing.Point(p.X, p.Y)).ToArray());
+            this.graphics.DrawLines(this.pen, this.points.Select(p => 
+                new System.Drawing.Point(p.X, p.Y)).ToArray());
         }
     }
 }

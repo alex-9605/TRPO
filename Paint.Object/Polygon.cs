@@ -24,7 +24,8 @@ namespace Paint.Object
             var lastPoint = this.points.Last();
             var firstPoint = this.points.First();
 
-            this.graphics.DrawLine(this.pen, new System.Drawing.Point(lastPoint.X, lastPoint.Y), new System.Drawing.Point(firstPoint.X, firstPoint.Y));
+            this.graphics.DrawLine(this.pen, new System.Drawing.Point(lastPoint.X, lastPoint.Y), 
+                new System.Drawing.Point(firstPoint.X, firstPoint.Y));
         }
     }
 }

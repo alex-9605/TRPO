@@ -12,16 +12,16 @@ namespace Paint.Object
     {
         private readonly Graphics graphics;
 
+        public int X { get; }
+        public int Y { get; }
+
         public Point(Graphics graphics, int x, int y)
         {
             this.graphics = graphics;
             this.X = x;
             this.Y = y;
         }
-
-        public int X { get; }
-        public int Y { get; }
-
+        
         public void Draw()
         {
         }

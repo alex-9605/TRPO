@@ -23,7 +23,7 @@ namespace Paint.Object
             this.start = start;
             this.end = end;
         }
-
+            
         public void Draw()
         {
             this.graphics.DrawLine(this.pen, new System.Drawing.Point(this.start.X, this.start.Y), new System.Drawing.Point(this.end.X, this.end.Y));
