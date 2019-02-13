@@ -22,6 +22,7 @@ namespace Paint.App
         private Point startPoint;
         private Polyline polyline;
         private Polygon polygon;
+        private IShape selectedShape;
 
         public Form1()
         {
@@ -50,15 +51,18 @@ namespace Paint.App
                     break;
 
                 case ToolType.Ellipse:
-                    var centre = new Point(this.graphics, this.startPoint.X + (e.X - this.startPoint.X) /2,
-                        this.startPoint.Y + (e.Y - this.startPoint.Y)/2);
-                    var radiusA = Math.Abs(e.X - this.startPoint.X) / 2;
-                    var radiusB = Math.Abs(e.Y - this.startPoint.Y) / 2;
-                    var ellipse = new Ellipse(this.graphics, centre, radiusA, radiusB, 1, Color.Aqua, Color.Aqua, LineType.Solid);
-                    this.shapes.Add(ellipse);
-                    ellipse.Draw();
-                    this.startPoint = null;
+                    {
+                        var centre = new Point(this.graphics, this.startPoint.X + (e.X - this.startPoint.X) / 2,
+                            this.startPoint.Y + (e.Y - this.startPoint.Y) / 2);
+                        var radiusA = Math.Abs(e.X - this.startPoint.X) / 2;
+                        var radiusB = Math.Abs(e.Y - this.startPoint.Y) / 2;
+                        var ellipse = new Ellipse(this.graphics, centre, radiusA, radiusB, 1, Color.Aqua, Color.Aqua, LineType.Solid);
+                        this.shapes.Add(ellipse);
+                        ellipse.Draw();
+                        this.startPoint = null;
+                    }
                     break;
+
 
                 case ToolType.Polyline:
                     {
@@ -93,13 +97,45 @@ namespace Paint.App
                     break;
 
                 case ToolType.Circle:
-                    var centre2 = new Point(this.graphics, this.startPoint.X + (e.X - this.startPoint.X) / 2,
-                        this.startPoint.Y + (e.Y - this.startPoint.Y) / 2);
-                    var radius = Math.Abs((e.X - this.startPoint.X) / 2);
-                    var circle = new Circle(this.graphics, centre2, radius, 1,Color.Aqua, Color.Aqua, LineType.Solid);
-                    this.shapes.Add(circle);
-                    circle.Draw();
-                    this.startPoint = null;
+                    {
+                        var centre2 = new Point(this.graphics, this.startPoint.X + (e.X - this.startPoint.X) / 2,
+                            this.startPoint.Y + (e.Y - this.startPoint.Y) / 2);
+                        var radius = Math.Abs((e.X - this.startPoint.X) / 2);
+                        var circle = new Circle(this.graphics, centre2, radius, 1, Color.Aqua, Color.Aqua, LineType.Solid);
+                        this.shapes.Add(circle);
+                        circle.Draw();
+                        this.startPoint = null;
+                        break;
+                    }
+
+                case ToolType.Delete:
+                    {
+                        var point = new Point(this.graphics, e.X, e.Y);
+                        var deleted = this.shapes.LastOrDefault(p => p.IsInBounds(point));
+                        if (deleted != null)
+                        {
+                            this.shapes.Remove(deleted);
+                            this.Draw();
+                        }
+                    }
+                    break;
+
+                case ToolType.Copy:
+                case ToolType.Selection:
+                    if (this.selectedShape == null)
+                    {
+                        var point = new Point(this.graphics, e.X, e.Y);
+                        this.selectedShape = this.shapes.LastOrDefault(p => p.IsInBounds(point));
+                    }
+                    else
+                    {
+                        //switch (this.toolType)
+                        //{
+                        //    case ToolType.Delete:
+                                
+                        //        break;
+                        //}
+                    }
                     break;
             }
         }
@@ -109,31 +145,59 @@ namespace Paint.App
             this.startPoint = new Point(this.graphics, e.X, e.Y);
         }
         
-        private void button1_Click(object sender, EventArgs e)
+        private void Line_button1_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Line;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Ellipse_button2_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Ellipse;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Polyline_button3_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Polyline;
             this.polyline = new Polyline(this.graphics, 1, Color.Aqua, Color.Aqua, LineType.Solid);
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void Circle_button4_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Circle;
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void Polygon_button5_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Polygon;
             this.polygon = new Polygon(this.graphics,1,Color.Aqua,Color.Aqua,LineType.Solid);
+        }
+
+        private void Clear_button6_Click(object sender, EventArgs e)
+        {
+            this.graphics.Clear(Color.White);
+            Refresh();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            this.toolType = ToolType.Copy;
+            this.selectedShape = null;
+        }
+
+        private void Draw()
+        {
+            this.graphics.Clear(Color.White);
+            Refresh();
+
+            foreach (var shape in this.shapes)
+            {
+                shape.Draw();
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            this.toolType = ToolType.Delete;
         }
     }
 }

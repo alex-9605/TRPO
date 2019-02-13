@@ -11,6 +11,8 @@ namespace Paint.Object
     {
         void Draw();
 
-        //bool IsInBounds(Point point);
+        bool IsInBounds(Point point);
+
+        IShape Copy(Point newPosition);
     }
 }

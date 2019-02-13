@@ -25,5 +25,20 @@ namespace Paint.Object
         public void Draw()
         {
         }
+
+        public bool IsInBounds(Point point)
+        {
+            if (this.X == point.X && this.Y == point.Y)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public IShape Copy(Point newPosition)
+        {
+            return new Point(this.graphics, newPosition.X, newPosition.Y);
+        }
     }
 }

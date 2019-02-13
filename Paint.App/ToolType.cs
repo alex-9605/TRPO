@@ -12,6 +12,9 @@ namespace Paint.App
         Circle,
         Ellipse,
         Polygon,
-        Polyline
+        Polyline,
+        Selection,
+        Copy,
+        Delete
     }
 }

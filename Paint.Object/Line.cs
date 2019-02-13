@@ -43,5 +43,34 @@ namespace Paint.Object
 
             return false;
         }
+
+        public IShape Copy(Point newPosition)
+        {
+            Point another;
+            var left = this.start.X < this.end.X ? this.start : this.end;
+            if (left.X == this.start.X && left.Y == this.start.Y)
+            {
+                another = this.end;
+            }
+            else
+            {
+                another = this.start;
+            }
+
+            var newStart = new Point(this.graphics, newPosition.X, Math.Abs(this.start.Y - this.end.Y));
+            var newEnd = new Point(this.graphics, Math.Abs(this.start.X - this.end.X), newPosition.Y);
+
+            return new Line(this.graphics, newStart, newEnd, this.width, this.color, this.fillColor, this.type);
+        }
+
+        public override void Select()
+        {
+            var xMax = this.start.X > this.end.X ? this.start.X : this.end.X;
+            var yMax = this.start.Y > this.end.Y ? this.start.Y : this.end.Y;
+            var xMin = this.start.X < this.end.X ? this.start.X : this.end.X;
+            var yMin = this.start.Y < this.end.Y ? this.start.Y : this.end.Y;
+
+            this.graphics.DrawRectangle(this.pen, new Rectangle(xMin, yMin, xMax - xMin, yMax - yMin));
+        }
     }
 }
