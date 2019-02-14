@@ -52,11 +52,10 @@ namespace Paint.App
 
                 case ToolType.Ellipse:
                     {
-                        var centre = new Point(this.graphics, this.startPoint.X + (e.X - this.startPoint.X) / 2,
-                            this.startPoint.Y + (e.Y - this.startPoint.Y) / 2);
-                        var radiusA = Math.Abs(e.X - this.startPoint.X) / 2;
-                        var radiusB = Math.Abs(e.Y - this.startPoint.Y) / 2;
-                        var ellipse = new Ellipse(this.graphics, centre, radiusA, radiusB, 1, Color.Aqua, Color.Aqua, LineType.Solid);
+                        var radiusA = (e.X - this.startPoint.X) / 2D;
+                        var radiusB = (e.Y - this.startPoint.Y) / 2D;
+                        var centre = new Point(this.graphics, this.startPoint.X + (int)radiusA, this.startPoint.Y + (int)radiusB);
+                        var ellipse = new Ellipse(this.graphics, centre, Math.Abs(radiusA), Math.Abs(radiusB), 1, Color.Aqua, Color.Aqua, LineType.Solid);
                         this.shapes.Add(ellipse);
                         ellipse.Draw();
                         this.startPoint = null;
@@ -98,10 +97,9 @@ namespace Paint.App
 
                 case ToolType.Circle:
                     {
-                        var centre2 = new Point(this.graphics, this.startPoint.X + (e.X - this.startPoint.X) / 2,
-                            this.startPoint.Y + (e.Y - this.startPoint.Y) / 2);
-                        var radius = Math.Abs((e.X - this.startPoint.X) / 2);
-                        var circle = new Circle(this.graphics, centre2, radius, 1, Color.Aqua, Color.Aqua, LineType.Solid);
+                        var centre2 = new Point(this.graphics, this.startPoint.X, this.startPoint.Y);
+                        var radius = (e.X - this.startPoint.X) / 2;
+                        var circle = new Circle(this.graphics, centre2, radius*2, 1, Color.Aqua, Color.Aqua, LineType.Solid);
                         this.shapes.Add(circle);
                         circle.Draw();
                         this.startPoint = null;
@@ -120,8 +118,15 @@ namespace Paint.App
                     }
                     break;
 
-                case ToolType.Copy:
                 case ToolType.Selection:
+                    {
+                        var point = new Point(this.graphics, e.X, e.Y);
+                        var shape = this.shapes.LastOrDefault(p => p.IsInBounds(point));
+                        shape?.Select();
+                    }
+                    break;
+
+                case ToolType.Copy:
                     if (this.selectedShape == null)
                     {
                         var point = new Point(this.graphics, e.X, e.Y);
@@ -176,6 +181,9 @@ namespace Paint.App
         {
             this.graphics.Clear(Color.White);
             Refresh();
+            this.shapes.Clear();
+            this.selectedShape = null;
+            this.startPoint = null;
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -198,6 +206,11 @@ namespace Paint.App
         private void button8_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Delete;
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            this.toolType = ToolType.Selection;
         }
     }
 }

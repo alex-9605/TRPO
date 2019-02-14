@@ -9,12 +9,9 @@ namespace Paint.Object
 {
     public class Polygon : Polyline
     {
-        private readonly Graphics graphics;
-
         public Polygon(Graphics graphics, int width, Color color, Color fillColor, LineType type) 
             : base(graphics, width, color, fillColor, type)
         {
-            this.graphics = graphics;
         }
 
         public override void Draw()

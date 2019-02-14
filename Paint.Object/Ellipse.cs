@@ -9,32 +9,32 @@ namespace Paint.Object
 {
     public class Ellipse : Shape, IShape
     {
-        private readonly Graphics graphics;
         private Point centre;
         private double radiusA;
         private double radiusB;
 
         public Ellipse(Graphics graphics, Point centre, double radiusA, double radiusB, 
             int width, Color color, Color fillColor, LineType type)
-            : base(width, color, fillColor, type)
+            : base(graphics, width, color, fillColor, type)
         {
-            this.graphics = graphics;
             this.centre = centre;
             this.radiusA = radiusA;
             this.radiusB = radiusB;
         }
 
-        public IShape Copy(Point newPosition)
+        public override void Draw()
         {
-            return null;
+            var bounds = this.GetBounds();
+            this.graphics.DrawEllipse(this.pen, bounds.Left.X, bounds.Top.Y, (float)this.radiusA * 2, (float)this.radiusB * 2);
         }
 
-        public void Draw()
+        public override IShape Copy(Point newPosition)
         {
-            this.graphics.DrawEllipse(this.pen, this.centre.X, this.centre.Y, (float)this.radiusA, (float)this.radiusB);
+            var newCentre = new Point(this.graphics, newPosition.X + (int)this.radiusA, newPosition.Y + (int)this.radiusB);
+            return new Ellipse(this.graphics, newCentre, this.radiusA,this.radiusB, this.width, this.color, this.fillColor, this.type);
         }
 
-        public bool IsInBounds(Point point)
+        protected override Bounds GetBounds()
         {
             var left = new Point(this.graphics, this.centre.X - (int)radiusA, this.centre.Y - (int)radiusB);
             var top = new Point(this.graphics, this.centre.X + (int)radiusA, this.centre.Y + (int)radiusB);
@@ -44,17 +44,11 @@ namespace Paint.Object
             var xMin = left.X < top.X ? left.X : top.X;
             var yMin = left.Y < top.Y ? left.Y : top.Y;
 
-            if (point.X > xMin && point.X < xMax && point.Y > yMin && point.Y < yMax)
+            return new Bounds
             {
-                return true;
-            }
-
-            return false;
-        }
-
-        public override void Select()
-        {
-            //TODO
+                Left = new Point(this.graphics, xMin, yMin),
+                Top = new Point(this.graphics, xMax, yMax)
+            };
         }
     }
 }

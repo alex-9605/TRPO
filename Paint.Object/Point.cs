@@ -40,5 +40,10 @@ namespace Paint.Object
         {
             return new Point(this.graphics, newPosition.X, newPosition.Y);
         }
+
+        public void Select()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

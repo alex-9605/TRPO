@@ -12,39 +12,22 @@ namespace Paint.Object
     /// </summary>
     public class Line : Shape, IShape
     {
-        private readonly Graphics graphics;
         private Point start;
         private Point end;
 
         public Line(Graphics graphics, Point start, Point end, int width, Color color, Color fillColor, LineType type)
-            : base(width, color, fillColor, type)
+            : base(graphics, width, color, fillColor, type)
         {
-            this.graphics = graphics;
             this.start = start;
             this.end = end;
         }
             
-        public void Draw()
+        public override void Draw()
         {
             this.graphics.DrawLine(this.pen, new System.Drawing.Point(this.start.X, this.start.Y), new System.Drawing.Point(this.end.X, this.end.Y));
         }
 
-        public bool IsInBounds(Point point)
-        {
-            var xMax = this.start.X > this.end.X ? this.start.X : this.end.X;
-            var yMax = this.start.Y > this.end.Y ? this.start.Y : this.end.Y;
-            var xMin = this.start.X < this.end.X ? this.start.X : this.end.X;
-            var yMin = this.start.Y < this.end.Y ? this.start.Y : this.end.Y;
-
-            if (point.X > xMin && point.X < xMax && point.Y > yMin && point.Y < yMax)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public IShape Copy(Point newPosition)
+        public override IShape Copy(Point newPosition)
         {
             Point another;
             var left = this.start.X < this.end.X ? this.start : this.end;
@@ -63,14 +46,18 @@ namespace Paint.Object
             return new Line(this.graphics, newStart, newEnd, this.width, this.color, this.fillColor, this.type);
         }
 
-        public override void Select()
+        protected override Bounds GetBounds()
         {
             var xMax = this.start.X > this.end.X ? this.start.X : this.end.X;
             var yMax = this.start.Y > this.end.Y ? this.start.Y : this.end.Y;
             var xMin = this.start.X < this.end.X ? this.start.X : this.end.X;
             var yMin = this.start.Y < this.end.Y ? this.start.Y : this.end.Y;
 
-            this.graphics.DrawRectangle(this.pen, new Rectangle(xMin, yMin, xMax - xMin, yMax - yMin));
+            return new Bounds
+            {
+                Left = new Point(this.graphics, xMin, yMin),
+                Top = new Point(this.graphics, xMax, yMax)
+            };
         }
     }
 }

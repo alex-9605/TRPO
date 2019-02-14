@@ -14,5 +14,7 @@ namespace Paint.Object
         bool IsInBounds(Point point);
 
         IShape Copy(Point newPosition);
+
+        void Select();
     }
 }
