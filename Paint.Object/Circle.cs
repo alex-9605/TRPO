@@ -22,7 +22,17 @@ namespace Paint.Object
 
         public override void Draw()
         {
-            this.graphics.DrawEllipse(this.pen, this.centre.X, this.centre.Y, (float)this.radius, (float)this.radius);
+            this.Select();
+
+            //var left = new Point(this.graphics, this.centre.X - (int)radius, this.centre.Y - (int)radius);
+            //var top = new Point(this.graphics, this.centre.X + (int)radius, this.centre.Y + (int)radius);
+
+            //var xMax = left.X > top.X ? left.X : top.X;
+            //var yMax = left.Y > top.Y ? left.Y : top.Y;
+            //var xMin = left.X < top.X ? left.X : top.X;
+            //var yMin = left.Y < top.Y ? left.Y : top.Y;
+
+            //this.graphics.DrawEllipse(this.pen, xMin, yMin, (float)this.radius * 2, (float)this.radius * 2);
         }
 
 

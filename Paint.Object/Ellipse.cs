@@ -24,8 +24,12 @@ namespace Paint.Object
 
         public override void Draw()
         {
-            var bounds = this.GetBounds();
-            this.graphics.DrawEllipse(this.pen, bounds.Left.X, bounds.Top.Y, (float)this.radiusA * 2, (float)this.radiusB * 2);
+            var left = new Point(this.graphics, this.centre.X - (int)radiusA, this.centre.Y - (int)radiusB);
+            var top = new Point(this.graphics, this.centre.X + (int)radiusA, this.centre.Y + (int)radiusB);
+            var xMin = left.X < top.X ? left.X : top.X;
+            var yMin = left.Y < top.Y ? left.Y : top.Y;
+
+            this.graphics.DrawEllipse(this.pen, xMin, yMin, (float)this.radiusA * 2, (float)this.radiusB * 2);
         }
 
         public override IShape Copy(Point newPosition)

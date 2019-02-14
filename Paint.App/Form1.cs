@@ -97,14 +97,23 @@ namespace Paint.App
 
                 case ToolType.Circle:
                     {
-                        var centre2 = new Point(this.graphics, this.startPoint.X, this.startPoint.Y);
-                        var radius = (e.X - this.startPoint.X) / 2;
-                        var circle = new Circle(this.graphics, centre2, radius*2, 1, Color.Aqua, Color.Aqua, LineType.Solid);
-                        this.shapes.Add(circle);
-                        circle.Draw();
+                        this.graphics.DrawLine(this.pen, new System.Drawing.Point(this.startPoint.X, this.startPoint.Y), new PointF(e.X, e.Y));
+                        ////var r = Math.Abs(e.X - this.startPoint.X);
+                        ////this.graphics.DrawRectangle(this.pen, this.startPoint.X,
+                        ////    this.startPoint.Y + (e.Y - this.startPoint.Y), r, r);
+
+                        var radius = (e.X - this.startPoint.X) / 2D;
+                        var centre2 = new Point(this.graphics, this.startPoint.X + (int)radius, this.startPoint.Y - e.Y);
+                        this.graphics.DrawString("c", new Font(FontFamily.GenericMonospace, 10), new SolidBrush(Color.Red), new PointF(centre2.X, centre2.Y));
+                        this.graphics.DrawString("s", new Font(FontFamily.GenericMonospace, 10), new SolidBrush(Color.Red), new PointF(this.startPoint.X, this.startPoint.Y));
+                        this.graphics.DrawString("e", new Font(FontFamily.GenericMonospace, 10), new SolidBrush(Color.Red), new PointF(e.X, e.Y));
+
+                        //var circle = new Circle(this.graphics, centre2, Math.Abs(radius), 1, Color.Aqua, Color.Aqua, LineType.Solid);
+                        //this.shapes.Add(circle);
+                        //circle.Draw();
                         this.startPoint = null;
-                        break;
                     }
+                    break;
 
                 case ToolType.Delete:
                     {

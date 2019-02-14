@@ -48,7 +48,7 @@ namespace Paint.Object
         {
             var bounds = this.GetBounds();
 
-            this.graphics.DrawRectangle(this.pen, new Rectangle(bounds.Left.X, bounds.Left.Y, bounds.Top.X - bounds.Left.X, bounds.Top.Y - bounds.Left.Y));
+            this.graphics.DrawRectangle(this.pen, new Rectangle(bounds.Left.X, bounds.Left.Y, Math.Abs(bounds.Top.X - bounds.Left.X), Math.Abs(bounds.Top.Y - bounds.Left.Y)));
         }
 
         protected abstract Bounds GetBounds();
