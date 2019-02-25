@@ -3,3 +3,4 @@ D:\ТРПО\Paint.Object\bin\Debug\Paint.Object.pdb
 D:\ТРПО\Paint.Object\obj\Debug\Paint.Object.csproj.CoreCompileInputs.cache
 D:\ТРПО\Paint.Object\obj\Debug\Paint.Object.dll
 D:\ТРПО\Paint.Object\obj\Debug\Paint.Object.pdb
+D:\ТРПО\Paint.Object\obj\Debug\Paint.Object.csprojAssemblyReference.cache
