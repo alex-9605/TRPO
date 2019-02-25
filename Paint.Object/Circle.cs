@@ -22,8 +22,6 @@ namespace Paint.Object
 
         public override void Draw()
         {
-            this.Select();
-
             var heightAndWidth = this.bottom.Y - this.left.Y;
             var rect = new Rectangle(this.left.X, this.left.Y, heightAndWidth, heightAndWidth);
             this.graphics.DrawEllipse(this.pen, rect);

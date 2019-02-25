@@ -15,6 +15,7 @@ namespace Paint.App
         Polyline,
         Selection,
         Copy,
-        Delete
+        Delete,
+        Cut
     }
 }

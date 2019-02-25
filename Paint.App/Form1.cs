@@ -124,12 +124,26 @@ namespace Paint.App
                 case ToolType.Selection:
                     {
                         var point = new Point(this.graphics, e.X, e.Y);
-                        var shape = this.shapes.LastOrDefault(p => p.IsInBounds(point));
-                        shape?.Select();
+                        var foundShape = this.shapes.LastOrDefault(p => p.IsInBounds(point));
+                        if (foundShape != null)
+                        {
+                            foundShape.Select();
+                        }
+                        else
+                        {
+                            this.graphics.Clear(Color.White);
+                            Refresh();
+
+                            foreach (var shape in this.shapes)
+                            {
+                                shape.Draw();
+                            }
+                        }
                     }
                     break;
 
                 case ToolType.Copy:
+                case ToolType.Cut:
                     if (this.selectedShape == null)
                     {
                         var point = new Point(this.graphics, e.X, e.Y);
@@ -137,12 +151,33 @@ namespace Paint.App
                     }
                     else
                     {
-                        //switch (this.toolType)
-                        //{
-                        //    case ToolType.Delete:
-                                
-                        //        break;
-                        //}
+                        switch (this.toolType)
+                        {
+                            case ToolType.Copy:
+                                {
+                                    var copiedShape = this.selectedShape.Copy(new Point(this.graphics, e.X, e.Y));
+                                    this.shapes.Add(copiedShape);
+                                    copiedShape.Draw();
+                                }
+                                break;
+
+                            case ToolType.Cut:
+                                {
+                                    var copiedShape = this.selectedShape.Copy(new Point(this.graphics, e.X, e.Y));
+                                    this.shapes.Add(copiedShape);
+                                    this.shapes.Remove(this.selectedShape);
+                                    this.graphics.Clear(Color.White);
+                                    Refresh();
+
+                                    foreach (var shape in this.shapes)
+                                    {
+                                        shape.Draw();
+                                    }
+                                }
+                                break;
+                        }
+                        
+                        this.selectedShape = null;
                     }
                     break;
             }
@@ -214,6 +249,11 @@ namespace Paint.App
         private void button9_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Selection;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            this.toolType = ToolType.Cut;
         }
     }
 }
