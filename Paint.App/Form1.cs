@@ -132,8 +132,16 @@ namespace Paint.App
                         {
                             if (this.selectedShape.IsInMarkers(this.startPoint))
                             {
-                                var line = this.selectedShape as Line;
-                                line?.Change(this.startPoint, point);
+                                switch (this.selectedShape)
+                                {
+                                    case Ellipse ellipse:
+                                        ellipse.Change(this.startPoint, point);
+                                        break;
+
+                                    case Line line:
+                                        line.Change(this.startPoint, point);
+                                        break;
+                                }
                             }
                         }
 

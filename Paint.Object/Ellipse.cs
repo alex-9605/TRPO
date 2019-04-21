@@ -29,6 +29,24 @@ namespace Paint.Object
 
         public void Change(Point markerPoint, Point point)
         {
+            if (this.markers[0].Contains(markerPoint.X, markerPoint.Y))
+            {
+                var newWidth = this.contour.Width + this.contour.X - point.X;
+                var newHeight = this.contour.Height + this.contour.Y - point.Y;
+                this.contour.Size = new Size(newWidth, newHeight);
+                this.contour.X = point.X;
+                this.contour.Y = point.Y;
+            }
+
+            if (this.markers[1].Contains(markerPoint.X, markerPoint.Y))
+            {
+                var newWidth = this.contour.Width + this.contour.Right - point.X;
+                var newHeight = this.contour.Height + this.contour.Bottom - point.Y;
+                this.contour.Size = new Size(newWidth, newHeight);
+            }
+
+
+            this.Draw();
         }
 
 
