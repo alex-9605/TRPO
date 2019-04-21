@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -52,10 +53,12 @@ namespace Paint.App
 
                 case ToolType.Ellipse:
                     {
-                        var radiusA = (e.X - this.startPoint.X) / 2D;
-                        var radiusB = (e.Y - this.startPoint.Y) / 2D;
-                        var centre = new Point(this.graphics, this.startPoint.X + (int)radiusA, this.startPoint.Y + (int)radiusB);
-                        var ellipse = new Ellipse(this.graphics, centre, Math.Abs(radiusA), Math.Abs(radiusB), 1, Color.Aqua, Color.Aqua, LineType.Solid);
+                        var xMin = this.startPoint.X < e.X ? this.startPoint.X : e.X;
+                        var yMin = this.startPoint.Y < e.Y ? this.startPoint.Y : e.Y;
+                        var top = new Point(this.graphics, xMin, yMin);
+                        
+                        var ellipse = new Ellipse(this.graphics, top, Math.Abs(e.X - this.startPoint.X), Math.Abs(e.Y - this.startPoint.Y)
+                            , 1, Color.Aqua, Color.Aqua, LineType.Solid);
                         this.shapes.Add(ellipse);
                         ellipse.Draw();
                         this.startPoint = null;

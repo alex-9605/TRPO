@@ -9,21 +9,16 @@ namespace Paint.Object
 {
     public class Ellipse : Shape, IShape
     {
-        private Point centre;
-        private double radiusA;
-        private double radiusB;
+        private Rectangle contour;
         private List<Rectangle> markers;
 
-        public Ellipse(Graphics graphics, Point centre, double radiusA, double radiusB, 
+        public Ellipse(Graphics graphics, Point left, int rectWidth, int rectHeight, 
             int width, Color color, Color fillColor, LineType type)
             : base(graphics, width, color, fillColor, type)
         {
             this.markers = new List<Rectangle>();
 
-
-            this.centre = centre;
-            this.radiusA = radiusA;
-            this.radiusB = radiusB;
+            this.contour = new Rectangle(left.X, left.Y, rectWidth, rectHeight);
 
             var bound = this.GetBounds();
             this.markers.Add(new Rectangle(bound.Left.X - MarkerWidth / 2, bound.Left.Y - MarkerWidth / 2, MarkerWidth, MarkerWidth));
@@ -45,18 +40,12 @@ namespace Paint.Object
 
         public override void Draw()
         {
-            var left = new Point(this.graphics, this.centre.X - (int)radiusA, this.centre.Y - (int)radiusB);
-            var top = new Point(this.graphics, this.centre.X + (int)radiusA, this.centre.Y + (int)radiusB);
-            var xMin = left.X < top.X ? left.X : top.X;
-            var yMin = left.Y < top.Y ? left.Y : top.Y;
-
-            this.graphics.DrawEllipse(this.pen, xMin, yMin, (float)this.radiusA * 2, (float)this.radiusB * 2);
+            this.graphics.DrawEllipse(this.pen, this.contour);
         }
 
         public override IShape Copy(Point newPosition)
         {
-            var newCentre = new Point(this.graphics, newPosition.X + (int)this.radiusA, newPosition.Y + (int)this.radiusB);
-            return new Ellipse(this.graphics, newCentre, this.radiusA,this.radiusB, this.width, this.color, this.fillColor, this.type);
+            return new Ellipse(this.graphics, newPosition, this.contour.Width, this.contour.Height, this.width, this.color, this.fillColor, this.type);
         }
 
         public override bool IsInMarkers(Point point)
@@ -66,18 +55,10 @@ namespace Paint.Object
 
         protected override Bounds GetBounds()
         {
-            var left = new Point(this.graphics, this.centre.X - (int)radiusA, this.centre.Y - (int)radiusB);
-            var top = new Point(this.graphics, this.centre.X + (int)radiusA, this.centre.Y + (int)radiusB);
-
-            var xMax = left.X > top.X ? left.X : top.X;
-            var yMax = left.Y > top.Y ? left.Y : top.Y;
-            var xMin = left.X < top.X ? left.X : top.X;
-            var yMin = left.Y < top.Y ? left.Y : top.Y;
-
             return new Bounds
             {
-                Left = new Point(this.graphics, xMin, yMin),
-                Top = new Point(this.graphics, xMax, yMax)
+                Left = new Point(this.graphics, this.contour.X, this.contour.Y),
+                Top = new Point(this.graphics, this.contour.Right, this.contour.Bottom)
             };
         }
 
