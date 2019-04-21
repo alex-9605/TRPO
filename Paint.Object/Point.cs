@@ -45,5 +45,10 @@ namespace Paint.Object
         {
             throw new NotImplementedException();
         }
+
+        public bool IsInMarkers(Point point)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

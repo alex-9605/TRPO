@@ -9,16 +9,21 @@ namespace Paint.Object
 {
     public abstract class Shape : IShape
     {
+        protected const int MarkerWidth = 4;
+
         protected readonly Graphics graphics;
         protected int width;
         protected Color color;
         protected Color fillColor;
         protected LineType type;
+        protected bool isSelected;
 
         protected Pen pen;
 
         public Shape(Graphics graphics, int width, Color color, Color fillColor, LineType type)
         {
+            this.isSelected = false;
+
             this.graphics = graphics;
             this.width = width;
             this.color = color;
@@ -28,9 +33,20 @@ namespace Paint.Object
             this.pen = new Pen(this.color);
         }
 
+        public bool IsSelected => this.isSelected;
+
         public abstract IShape Copy(Point newPosition);
 
-        public abstract void Draw();
+        public virtual void Draw()
+        {
+            this.isSelected = false;
+        }
+
+        // TODO: сделать абстрактным после реализациии во всех производных классах
+        public virtual bool IsInMarkers(Point point) 
+        {
+            return false;
+        }
 
         public bool IsInBounds(Point point)
         {
@@ -44,8 +60,9 @@ namespace Paint.Object
             return false;
         }
 
-        public void Select()
+        public virtual void Select()
         {
+            this.isSelected = true;
             var bounds = this.GetBounds();
 
             this.graphics.DrawRectangle(this.pen, new Rectangle(bounds.Left.X, bounds.Left.Y, Math.Abs(bounds.Top.X - bounds.Left.X), Math.Abs(bounds.Top.Y - bounds.Left.Y)));

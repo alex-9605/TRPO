@@ -16,5 +16,7 @@ namespace Paint.Object
         IShape Copy(Point newPosition);
 
         void Select();
+
+        bool IsInMarkers(Point point);
     }
 }

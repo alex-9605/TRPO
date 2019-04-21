@@ -124,13 +124,26 @@ namespace Paint.App
                 case ToolType.Selection:
                     {
                         var point = new Point(this.graphics, e.X, e.Y);
+
+                        if (this.selectedShape != null)
+                        {
+                            if (this.selectedShape.IsInMarkers(this.startPoint))
+                            {
+                                var line = this.selectedShape as Line;
+                                line?.Change(this.startPoint, point);
+                            }
+                        }
+
+                        
                         var foundShape = this.shapes.LastOrDefault(p => p.IsInBounds(point));
                         if (foundShape != null)
                         {
                             foundShape.Select();
+                            this.selectedShape = foundShape;
                         }
                         else
                         {
+                            this.selectedShape = null;
                             this.graphics.Clear(Color.White);
                             Refresh();
 
