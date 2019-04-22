@@ -12,8 +12,8 @@ namespace Paint.Object
     {
         private readonly Graphics graphics;
 
-        public int X { get; }
-        public int Y { get; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
         public Point(Graphics graphics, int x, int y)
         {
@@ -34,6 +34,12 @@ namespace Paint.Object
             }
 
             return false;
+        }
+
+        public void SetPosition(int x, int y)
+        {
+            this.X = x;
+            this.Y = y;
         }
 
         public IShape Copy(Point newPosition)

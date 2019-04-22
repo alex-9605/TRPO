@@ -100,12 +100,10 @@ namespace Paint.App
 
                 case ToolType.Circle:
                     {
-                        var xMax = this.startPoint.X > e.X ? this.startPoint.X : e.X;
-                        var yMax = this.startPoint.Y > e.Y ? this.startPoint.Y : e.Y;
                         var xMin = this.startPoint.X < e.X ? this.startPoint.X : e.X;
                         var yMin = this.startPoint.Y < e.Y ? this.startPoint.Y : e.Y;
 
-                        var circle = new Circle(this.graphics, new Point(this.graphics, xMin, yMin), new Point(this.graphics, xMin + yMax - yMin, yMin + yMax - yMin), 1, Color.Aqua, Color.Aqua, LineType.Solid);
+                        var circle = new Circle(this.graphics, new Point(this.graphics, xMin, yMin), Math.Abs(e.Y - this.startPoint.Y), 1, Color.Aqua, Color.Aqua, LineType.Solid);
                         this.shapes.Add(circle);
                         circle.Draw();
                         this.startPoint = null;
@@ -141,7 +139,26 @@ namespace Paint.App
                                     case Line line:
                                         line.Change(this.startPoint, point);
                                         break;
+
+                                    case Circle circle:
+                                        circle.Change(this.startPoint, point);
+                                        break;
+
+                                    case Polyline pline:
+                                        pline.Change(this.startPoint, point);
+                                        break;
                                 }
+
+                                this.selectedShape = null;
+                                this.graphics.Clear(Color.White);
+                                Refresh();
+
+                                foreach (var shape in this.shapes)
+                                {
+                                    shape.Draw();
+                                }
+
+                                return;
                             }
                         }
 
