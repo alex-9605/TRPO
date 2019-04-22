@@ -29,6 +29,16 @@ namespace Paint.App
         {
             InitializeComponent();
             this.shapes = new List<IShape>();
+            TakeColor();
+        }
+
+        void TakeColor()
+        {
+
+            comboBox1.Items.Insert(0, Color.Black);
+            comboBox1.Items.Insert(1, Color.Coral);
+            if (comboBox1.Items.Count != 0)
+                comboBox1.SelectedIndex = 0;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -44,7 +54,7 @@ namespace Paint.App
                 case ToolType.Line:
                     {
                         var line = new Line(this.graphics, this.startPoint, new Point(this.graphics, e.X, e.Y), 1,
-                            Color.Aqua, Color.Aqua, LineType.Solid);
+                            (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
                         this.shapes.Add(line);
                         line.Draw();
                         this.startPoint = null;
@@ -58,7 +68,7 @@ namespace Paint.App
                         var top = new Point(this.graphics, xMin, yMin);
                         
                         var ellipse = new Ellipse(this.graphics, top, Math.Abs(e.X - this.startPoint.X), Math.Abs(e.Y - this.startPoint.Y)
-                            , 1, Color.Aqua, Color.Aqua, LineType.Solid);
+                            , 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
                         this.shapes.Add(ellipse);
                         ellipse.Draw();
                         this.startPoint = null;
@@ -76,7 +86,8 @@ namespace Paint.App
                         {
                             this.shapes.Add(this.polyline);
                             this.polyline.Draw();
-                            this.polyline = new Polyline(this.graphics, 1, Color.Aqua, Color.Aqua,LineType.Solid);
+                            this.polyline = new Polyline(this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua,LineType.Solid);
+
                             this.startPoint = null;
                         }
                     }
@@ -92,7 +103,7 @@ namespace Paint.App
                         {
                             this.shapes.Add(this.polygon);
                             this.polygon.Draw();
-                            this.polygon = new Polygon(this.graphics, 1,Color.Aqua, Color.Aqua, LineType.Solid);
+                            this.polygon = new Polygon(this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
                             this.startPoint = null;
                         }
                     }
@@ -103,7 +114,7 @@ namespace Paint.App
                         var xMin = this.startPoint.X < e.X ? this.startPoint.X : e.X;
                         var yMin = this.startPoint.Y < e.Y ? this.startPoint.Y : e.Y;
 
-                        var circle = new Circle(this.graphics, new Point(this.graphics, xMin, yMin), Math.Abs(e.Y - this.startPoint.Y), 1, Color.Aqua, Color.Aqua, LineType.Solid);
+                        var circle = new Circle(this.graphics, new Point(this.graphics, xMin, yMin), Math.Abs(e.Y - this.startPoint.Y), 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
                         this.shapes.Add(circle);
                         circle.Draw();
                         this.startPoint = null;
@@ -295,6 +306,11 @@ namespace Paint.App
         private void button10_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Cut;
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //pen.Color = comboBox1.SelectedItem;
         }
     }
 }
