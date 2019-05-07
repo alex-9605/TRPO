@@ -46,8 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangeManager\AddShapeInfo.cs" />
+    <Compile Include="ChangeManager\BaseShapeChangeInfo.cs" />
     <Compile Include="ChangeManager\ChangeInfo.cs" />
-    <Compile Include="ChangeManager\LineChangeInfo.cs" />
+    <Compile Include="ChangeManager\ChangeManager.cs" />
+    <Compile Include="ChangeManager\CopyShapeChangeInfo.cs" />
+    <Compile Include="ChangeManager\CutShapeInfo.cs" />
+    <Compile Include="ChangeManager\DeleteChangeInfo.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

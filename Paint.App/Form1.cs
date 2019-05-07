@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Paint.App.ChangeManager;
 using Point = Paint.Object.Point;
 
 namespace Paint.App
@@ -24,19 +25,24 @@ namespace Paint.App
         private Polyline polyline;
         private Polygon polygon;
         private IShape selectedShape;
+        private ChangeManager.ChangeManager changeManager;
 
         public Form1()
         {
             InitializeComponent();
+            this.changeManager = new ChangeManager.ChangeManager();
             this.shapes = new List<IShape>();
             TakeColor();
         }
 
         void TakeColor()
         {
-
             comboBox1.Items.Insert(0, Color.Black);
             comboBox1.Items.Insert(1, Color.Coral);
+            comboBox1.Items.Insert(2, Color.Blue);
+            comboBox1.Items.Insert(3, Color.Chartreuse);
+            comboBox1.Items.Insert(4, Color.Fuchsia);
+            comboBox1.Items.Insert(5, Color.Gold);
             if (comboBox1.Items.Count != 0)
                 comboBox1.SelectedIndex = 0;
         }
@@ -55,6 +61,9 @@ namespace Paint.App
                     {
                         var line = new Line(this.graphics, this.startPoint, new Point(this.graphics, e.X, e.Y), 1,
                             (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
+
+                        this.changeManager.SaveChange(new AddShapeInfo(line, this.shapes));
+
                         this.shapes.Add(line);
                         line.Draw();
                         this.startPoint = null;
@@ -69,6 +78,9 @@ namespace Paint.App
                         
                         var ellipse = new Ellipse(this.graphics, top, Math.Abs(e.X - this.startPoint.X), Math.Abs(e.Y - this.startPoint.Y)
                             , 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
+
+                        this.changeManager.SaveChange(new AddShapeInfo(ellipse, this.shapes));
+
                         this.shapes.Add(ellipse);
                         ellipse.Draw();
                         this.startPoint = null;
@@ -84,6 +96,7 @@ namespace Paint.App
                         }
                         else if (e.Button == MouseButtons.Right)
                         {
+                            this.changeManager.SaveChange(new AddShapeInfo(this.polyline, this.shapes));
                             this.shapes.Add(this.polyline);
                             this.polyline.Draw();
                             this.polyline = new Polyline(this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua,LineType.Solid);
@@ -101,6 +114,7 @@ namespace Paint.App
                         }
                         else if (e.Button == MouseButtons.Right)
                         {
+                            this.changeManager.SaveChange(new AddShapeInfo(this.polygon, this.shapes));
                             this.shapes.Add(this.polygon);
                             this.polygon.Draw();
                             this.polygon = new Polygon(this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
@@ -115,6 +129,9 @@ namespace Paint.App
                         var yMin = this.startPoint.Y < e.Y ? this.startPoint.Y : e.Y;
 
                         var circle = new Circle(this.graphics, new Point(this.graphics, xMin, yMin), Math.Abs(e.Y - this.startPoint.Y), 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
+
+                        this.changeManager.SaveChange(new AddShapeInfo(circle, this.shapes));
+
                         this.shapes.Add(circle);
                         circle.Draw();
                         this.startPoint = null;
@@ -127,6 +144,7 @@ namespace Paint.App
                         var deleted = this.shapes.LastOrDefault(p => p.IsInBounds(point));
                         if (deleted != null)
                         {
+                            this.changeManager.SaveChange(new DeleteChangeInfo(deleted, this.shapes));
                             this.shapes.Remove(deleted);
                             this.Draw();
                         }
@@ -208,6 +226,7 @@ namespace Paint.App
                             case ToolType.Copy:
                                 {
                                     var copiedShape = this.selectedShape.Copy(new Point(this.graphics, e.X, e.Y));
+                                    this.changeManager.SaveChange(new CopyShapeChangeInfo(copiedShape, this.shapes));
                                     this.shapes.Add(copiedShape);
                                     copiedShape.Draw();
                                 }
@@ -217,6 +236,9 @@ namespace Paint.App
                                 {
                                     var copiedShape = this.selectedShape.Copy(new Point(this.graphics, e.X, e.Y));
                                     this.shapes.Add(copiedShape);
+
+                                    this.changeManager.SaveChange(new CutShapeInfo(this.selectedShape, this.shapes, this.shapes.IndexOf(this.selectedShape), this.shapes.IndexOf(copiedShape) - 1));
+                                    
                                     this.shapes.Remove(this.selectedShape);
                                     this.graphics.Clear(Color.White);
                                     Refresh();
@@ -253,7 +275,7 @@ namespace Paint.App
         private void Polyline_button3_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Polyline;
-            this.polyline = new Polyline(this.graphics, 1, Color.Aqua, Color.Aqua, LineType.Solid);
+            this.polyline = new Polyline(this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
         }
 
         private void Circle_button4_Click(object sender, EventArgs e)
@@ -264,7 +286,7 @@ namespace Paint.App
         private void Polygon_button5_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Polygon;
-            this.polygon = new Polygon(this.graphics,1,Color.Aqua,Color.Aqua,LineType.Solid);
+            this.polygon = new Polygon(this.graphics,1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua,LineType.Solid);
         }
 
         private void Clear_button6_Click(object sender, EventArgs e)
@@ -308,9 +330,10 @@ namespace Paint.App
             this.toolType = ToolType.Cut;
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void button11_Click(object sender, EventArgs e)
         {
-            //pen.Color = comboBox1.SelectedItem;
+            this.changeManager.Undo();
+            this.Draw();
         }
     }
 }

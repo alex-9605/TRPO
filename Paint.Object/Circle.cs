@@ -118,7 +118,7 @@ namespace Paint.Object
         {
             foreach (var marker in this.markers)
             {
-                this.graphics.DrawRectangle(this.pen, marker);
+                this.graphics.DrawRectangle(selectionMarkerPen, marker);
             }
         }
     }

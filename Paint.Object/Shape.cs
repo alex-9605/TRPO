@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace Paint.Object
 {
@@ -11,6 +12,14 @@ namespace Paint.Object
     {
         protected const int MarkerWidth = 4;
 
+        protected static Color selectionColor = Color.FromArgb(255, 0, 120, 215);
+        protected static Pen selectionPen = new Pen(selectionColor, 1)
+        {
+            DashStyle = DashStyle.Dash,
+            DashOffset = 2
+        };
+
+        protected static Pen selectionMarkerPen = new Pen(selectionColor);
         protected readonly Graphics graphics;
         protected int width;
         protected Color color;
@@ -65,7 +74,7 @@ namespace Paint.Object
             this.isSelected = true;
             var bounds = this.GetBounds();
 
-            this.graphics.DrawRectangle(this.pen, new Rectangle(bounds.Left.X, bounds.Left.Y, Math.Abs(bounds.Top.X - bounds.Left.X), Math.Abs(bounds.Top.Y - bounds.Left.Y)));
+            this.graphics.DrawRectangle(selectionPen, new Rectangle(bounds.Left.X, bounds.Left.Y, Math.Abs(bounds.Top.X - bounds.Left.X), Math.Abs(bounds.Top.Y - bounds.Left.Y)));
         }
 
         protected abstract Bounds GetBounds();

@@ -105,8 +105,8 @@ namespace Paint.Object
 
         private void DrawMarkers()
         {
-            this.graphics.DrawRectangle(this.pen, this.start.X - MarkerWidth / 2, this.start.Y - MarkerWidth / 2, MarkerWidth, MarkerWidth);
-            this.graphics.DrawRectangle(this.pen, this.end.X - MarkerWidth / 2, this.end.Y - MarkerWidth / 2, MarkerWidth, MarkerWidth);
+            this.graphics.DrawRectangle(selectionMarkerPen, this.start.X - MarkerWidth / 2, this.start.Y - MarkerWidth / 2, MarkerWidth, MarkerWidth);
+            this.graphics.DrawRectangle(selectionMarkerPen, this.end.X - MarkerWidth / 2, this.end.Y - MarkerWidth / 2, MarkerWidth, MarkerWidth);
         }
     }
 }
