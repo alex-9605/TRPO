@@ -33,7 +33,6 @@ namespace Paint.App
             this.changeManager = new ChangeManager.ChangeManager();
             this.shapes = new List<IShape>();
             TakeColor();
-            TakeWidth();
         }
 
         void TakeColor()
@@ -48,14 +47,6 @@ namespace Paint.App
                 comboBox1.SelectedIndex = 0;
         }
 
-        void TakeWidth()
-        {
-            comboBox2.Items.Insert(0, Width=1);
-            comboBox2.Items.Insert(1,Width=2);
-            comboBox2.Items.Insert(2, Width=3);
-            if (comboBox2.Items.Count != 0)
-                comboBox2.SelectedIndex = 0;
-        }
         private void Form1_Load(object sender, EventArgs e)
         {
             this.pen = new System.Drawing.Pen(Color.Blue, 2F);
@@ -68,7 +59,7 @@ namespace Paint.App
             {
                 case ToolType.Line:
                     {
-                        var line = new Line(this.graphics, this.startPoint, new Point(this.graphics, e.X, e.Y), (int)comboBox2.Items[comboBox2.SelectedIndex],
+                        var line = new Line(this.graphics, this.startPoint, new Point(this.graphics, e.X, e.Y), 1,
                             (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
 
                         this.changeManager.SaveChange(new AddShapeInfo(line, this.shapes));
@@ -86,7 +77,7 @@ namespace Paint.App
                         var top = new Point(this.graphics, xMin, yMin);
                         
                         var ellipse = new Ellipse(this.graphics, top, Math.Abs(e.X - this.startPoint.X), Math.Abs(e.Y - this.startPoint.Y)
-                            , 15, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
+                            , 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
 
                         this.changeManager.SaveChange(new AddShapeInfo(ellipse, this.shapes));
 
