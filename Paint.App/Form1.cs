@@ -30,7 +30,7 @@ namespace Paint.App
         public Form1()
         {
             InitializeComponent();
-            this.changeManager = new ChangeManager.ChangeManager();
+            this.changeManager = new ChangeManager.ChangeManager(this.listBox1.Items);
             this.shapes = new List<IShape>();
             TakeColor();
         }
@@ -163,18 +163,22 @@ namespace Paint.App
                                 {
                                     case Ellipse ellipse:
                                         ellipse.Change(this.startPoint, point);
+                                        this.changeManager.SaveChange(new ShapeChangeInfo(ellipse, this.shapes, this.startPoint, point));
                                         break;
 
                                     case Line line:
                                         line.Change(this.startPoint, point);
+                                        this.changeManager.SaveChange(new ShapeChangeInfo(line, this.shapes, this.startPoint, point));
                                         break;
 
                                     case Circle circle:
                                         circle.Change(this.startPoint, point);
+                                        this.changeManager.SaveChange(new ShapeChangeInfo(circle, this.shapes, this.startPoint, point));
                                         break;
 
                                     case Polyline pline:
                                         pline.Change(this.startPoint, point);
+                                        this.changeManager.SaveChange(new ShapeChangeInfo(pline, this.shapes, this.startPoint, point));
                                         break;
                                 }
 
@@ -237,7 +241,7 @@ namespace Paint.App
                                     var copiedShape = this.selectedShape.Copy(new Point(this.graphics, e.X, e.Y));
                                     this.shapes.Add(copiedShape);
 
-                                    this.changeManager.SaveChange(new CutShapeInfo(this.selectedShape, this.shapes, this.shapes.IndexOf(this.selectedShape), this.shapes.IndexOf(copiedShape) - 1));
+                                    this.changeManager.SaveChange(new CutShapeInfo(this.selectedShape, copiedShape, this.shapes, this.shapes.IndexOf(this.selectedShape), this.shapes.IndexOf(copiedShape) - 1));
                                     
                                     this.shapes.Remove(this.selectedShape);
                                     this.graphics.Clear(Color.White);
@@ -255,6 +259,7 @@ namespace Paint.App
                     }
                     break;
             }
+
         }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
@@ -296,6 +301,7 @@ namespace Paint.App
             this.shapes.Clear();
             this.selectedShape = null;
             this.startPoint = null;
+            this.changeManager.Clear();
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -333,6 +339,12 @@ namespace Paint.App
         private void button11_Click(object sender, EventArgs e)
         {
             this.changeManager.Undo();
+            this.Draw();
+        }
+
+        private void redoButton_Click(object sender, EventArgs e)
+        {
+            this.changeManager.Redo();
             this.Draw();
         }
     }

@@ -53,6 +53,7 @@
     <Compile Include="ChangeManager\CopyShapeChangeInfo.cs" />
     <Compile Include="ChangeManager\CutShapeInfo.cs" />
     <Compile Include="ChangeManager\DeleteChangeInfo.cs" />
+    <Compile Include="ChangeManager\ShapeChangeInfo.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -15,6 +15,8 @@ namespace Paint.Object
         private Point start;
         private Point end;
 
+        public override string Name => "Линия";
+
         public Line(Graphics graphics, Point start, Point end, int width, Color color, Color fillColor, LineType type)
             : base(graphics, width, color, fillColor, type)
         {
@@ -22,7 +24,7 @@ namespace Paint.Object
             this.end = end;
         }
 
-        public void Change(Point markerPoint, Point point)
+        public override void Change(Point markerPoint, Point point)
         {
             if (IsInStartMarker(markerPoint))
             {

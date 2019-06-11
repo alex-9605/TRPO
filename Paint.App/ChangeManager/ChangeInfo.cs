@@ -8,6 +8,10 @@ namespace Paint.App.ChangeManager
 {
     abstract class ChangeInfo
     {
+        public abstract string Description { get; }
+
         public abstract void Undo();
+
+        public abstract void Redo();
     }
 }

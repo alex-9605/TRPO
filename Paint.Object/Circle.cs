@@ -12,6 +12,8 @@ namespace Paint.Object
         private Rectangle contour;
         private List<Rectangle> markers;
 
+        public override string Name => "Окружность";
+
         public Circle (Graphics graphics, Point left, int rectWidth, 
             int width, Color color, Color fillColor, LineType type)
             : base(graphics, width, color, fillColor, type)
@@ -42,7 +44,7 @@ namespace Paint.Object
                 bound.Left.Y + Math.Abs(bound.Top.Y - bound.Left.Y) - MarkerWidth / 2, MarkerWidth, MarkerWidth));
         }
 
-        public void Change(Point markerPoint, Point point)
+        public override void Change(Point markerPoint, Point point)
         {
 
             if (this.markers[0].Contains(markerPoint.X, markerPoint.Y))

@@ -12,6 +12,8 @@ namespace Paint.Object
     {
         private readonly Graphics graphics;
 
+        public string Name => "Точка";
+
         public int X { get; private set; }
         public int Y { get; private set; }
 
@@ -53,6 +55,11 @@ namespace Paint.Object
         }
 
         public bool IsInMarkers(Point point)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Change(Point markerPoint, Point point)
         {
             throw new NotImplementedException();
         }

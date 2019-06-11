@@ -42,15 +42,17 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.button11 = new System.Windows.Forms.Button();
+            this.redoButton = new System.Windows.Forms.Button();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pictureBox1.Location = new System.Drawing.Point(193, 0);
+            this.pictureBox1.Location = new System.Drawing.Point(407, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(607, 450);
+            this.pictureBox1.Size = new System.Drawing.Size(542, 459);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
@@ -174,11 +176,32 @@
             this.button11.UseVisualStyleBackColor = true;
             this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
+            // redoButton
+            // 
+            this.redoButton.Location = new System.Drawing.Point(93, 424);
+            this.redoButton.Name = "redoButton";
+            this.redoButton.Size = new System.Drawing.Size(75, 23);
+            this.redoButton.TabIndex = 13;
+            this.redoButton.Text = "Redo";
+            this.redoButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.redoButton.UseVisualStyleBackColor = true;
+            this.redoButton.Click += new System.EventHandler(this.redoButton_Click);
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(254, 12);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(147, 433);
+            this.listBox1.TabIndex = 14;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(949, 459);
+            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.redoButton);
             this.Controls.Add(this.button11);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button10);
@@ -216,6 +239,8 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button redoButton;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

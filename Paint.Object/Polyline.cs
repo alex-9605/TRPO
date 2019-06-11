@@ -12,6 +12,8 @@ namespace Paint.Object
         protected List<Point> points;
         private List<Rectangle> markers;
 
+        public override string Name => "Полилиния";
+
         public Polyline(Graphics graphics, List<Point> points, int width, Color color, Color fillColor, LineType type)
             : this(graphics, width, color, fillColor, type)
         {
@@ -41,7 +43,7 @@ namespace Paint.Object
             this.markers = new List<Rectangle>();
         }
 
-        public void Change(Point markerPoint, Point point)
+        public override void Change(Point markerPoint, Point point)
         {
             var marker = this.markers.First(p => p.Contains(markerPoint.X, markerPoint.Y));
             var changedPoint = this.points.First(p => marker.Contains(p.X, p.Y));

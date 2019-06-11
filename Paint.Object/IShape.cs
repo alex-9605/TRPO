@@ -9,6 +9,8 @@ namespace Paint.Object
 {
     public interface IShape
     {
+        string Name { get; }
+
         void Draw();
 
         bool IsInBounds(Point point);
@@ -18,5 +20,7 @@ namespace Paint.Object
         void Select();
 
         bool IsInMarkers(Point point);
+
+        void Change(Point markerPoint, Point point);
     }
 }

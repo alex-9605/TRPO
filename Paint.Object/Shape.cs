@@ -12,6 +12,8 @@ namespace Paint.Object
     {
         protected const int MarkerWidth = 4;
 
+        public abstract string Name { get; }
+
         protected static Color selectionColor = Color.FromArgb(255, 0, 120, 215);
         protected static Pen selectionPen = new Pen(selectionColor, 1)
         {
@@ -78,5 +80,7 @@ namespace Paint.Object
         }
 
         protected abstract Bounds GetBounds();
+
+        public abstract void Change(Point markerPoint, Point point);
     }
 }
