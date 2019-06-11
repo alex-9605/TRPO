@@ -31,6 +31,14 @@ namespace Paint.Object
 
         protected Pen pen;
 
+        public int Width => this.width;
+
+        public Color Color => this.color;
+
+        public Color FillColor => this.fillColor;
+
+        public LineType LineType => this.type;
+
         public Shape(Graphics graphics, int width, Color color, Color fillColor, LineType type)
         {
             this.isSelected = false;

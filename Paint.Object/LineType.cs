@@ -8,7 +8,7 @@ namespace Paint.Object
 {
     public enum LineType
     {
-        Solid,
+        Solid = 1,
         Dashed
     };
 }

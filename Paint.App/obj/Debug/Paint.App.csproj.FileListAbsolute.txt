@@ -11,3 +11,8 @@ D:\ТРПО\Paint.App\obj\Debug\Paint.App.csproj.CoreCompileInputs.cache
 D:\ТРПО\Paint.App\obj\Debug\Paint.App.csproj.CopyComplete
 D:\ТРПО\Paint.App\obj\Debug\Paint.App.exe
 D:\ТРПО\Paint.App\obj\Debug\Paint.App.pdb
+D:\ТРПО\Paint.App\bin\Debug\AutoMapper.dll
+D:\ТРПО\Paint.App\bin\Debug\Newtonsoft.Json.dll
+D:\ТРПО\Paint.App\bin\Debug\AutoMapper.pdb
+D:\ТРПО\Paint.App\bin\Debug\AutoMapper.xml
+D:\ТРПО\Paint.App\bin\Debug\Newtonsoft.Json.xml

@@ -44,6 +44,7 @@
             this.button11 = new System.Windows.Forms.Button();
             this.redoButton = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.saveButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -195,11 +196,22 @@
             this.listBox1.Size = new System.Drawing.Size(147, 433);
             this.listBox1.TabIndex = 14;
             // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(93, 366);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.TabIndex = 15;
+            this.saveButton.Text = "Save project";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(949, 459);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.redoButton);
             this.Controls.Add(this.button11);
@@ -241,6 +253,7 @@
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button redoButton;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Button saveButton;
     }
 }
 

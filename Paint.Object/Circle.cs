@@ -14,6 +14,11 @@ namespace Paint.Object
 
         public override string Name => "Окружность";
 
+        public Point Position => new Point(null, this.contour.X, this.contour.Y);
+
+        public int RectWidth => this.contour.Width;
+
+
         public Circle (Graphics graphics, Point left, int rectWidth, 
             int width, Color color, Color fillColor, LineType type)
             : base(graphics, width, color, fillColor, type)

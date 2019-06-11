@@ -10,7 +10,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using Paint.App.ChangeManager;
+using Paint.App.Dto;
 using Point = Paint.Object.Point;
 
 namespace Paint.App
@@ -346,6 +348,19 @@ namespace Paint.App
         {
             this.changeManager.Redo();
             this.Draw();
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            var dtos = AutomapperConfig.Mapper.DefaultContext.Mapper.Map<ShapeDto[]>(this.shapes.ToArray());
+
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            };
+            var result = JsonConvert.SerializeObject(dtos, Formatting.Indented, settings);
+            var newDtos = JsonConvert.DeserializeObject<ShapeDto[]>(result, settings);
+            var again = AutomapperConfig.Mapper.DefaultContext.Mapper.Map<Shape[]>(newDtos);
         }
     }
 }
