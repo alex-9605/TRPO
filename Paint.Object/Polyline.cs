@@ -14,6 +14,8 @@ namespace Paint.Object
 
         public override string Name => "Полилиния";
 
+        public Point[] Points => this.points.ToArray();
+
         public Polyline(Graphics graphics, List<Point> points, int width, Color color, Color fillColor, LineType type)
             : this(graphics, width, color, fillColor, type)
         {

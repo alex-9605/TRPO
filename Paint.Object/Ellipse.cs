@@ -14,6 +14,12 @@ namespace Paint.Object
 
         public override string Name => "Эллипс";
 
+        public Point Position => new Point(null, this.contour.X, this.contour.Y);
+
+        public int RectWidth => this.contour.Width;
+
+        public int RectHeight => this.contour.Height;
+
         public Ellipse(Graphics graphics, Point left, int rectWidth, int rectHeight, 
             int width, Color color, Color fillColor, LineType type)
             : base(graphics, width, color, fillColor, type)

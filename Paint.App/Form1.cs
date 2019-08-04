@@ -352,15 +352,50 @@ namespace Paint.App
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            var saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Text files(*.txt)|*.txt";
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            // получаем выбранный файл
+            string filename = saveFileDialog1.FileName;
+
             var dtos = AutomapperConfig.Mapper.DefaultContext.Mapper.Map<ShapeDto[]>(this.shapes.ToArray());
 
             var settings = new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.All
+                TypeNameHandling = TypeNameHandling.Objects
             };
             var result = JsonConvert.SerializeObject(dtos, Formatting.Indented, settings);
-            var newDtos = JsonConvert.DeserializeObject<ShapeDto[]>(result, settings);
-            var again = AutomapperConfig.Mapper.DefaultContext.Mapper.Map<Shape[]>(newDtos);
+
+
+            // сохраняем текст в файл
+            System.IO.File.WriteAllText(filename, result);
+
+        }
+
+        private void openBtn_Click(object sender, EventArgs e)
+        {
+            var openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "Text files(*.txt)|*.txt";
+            if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            // получаем выбранный файл
+            string filename = openFileDialog1.FileName;
+            // читаем файл в строку
+            string fileText = System.IO.File.ReadAllText(filename);
+
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Objects
+            };
+
+            var newDtos = JsonConvert.DeserializeObject<ShapeDto[]>(fileText, settings);
+
+            this.graphics.Clear(Color.White);
+
+            var again = AutomapperConfig.Mapper.DefaultContext.Mapper.Map<IShape[]>(newDtos, opt => opt.Items["graphic"] = this.graphics);
+            this.shapes = again.ToList();
+            this.Draw();
         }
     }
 }

@@ -17,6 +17,10 @@ namespace Paint.Object
 
         public override string Name => "Линия";
 
+        public Point Start => this.start;
+
+        public Point End => this.end;
+
         public Line(Graphics graphics, Point start, Point end, int width, Color color, Color fillColor, LineType type)
             : base(graphics, width, color, fillColor, type)
         {
