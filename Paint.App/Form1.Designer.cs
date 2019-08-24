@@ -46,6 +46,7 @@
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.openBtn = new System.Windows.Forms.Button();
+            this.exportBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -217,11 +218,22 @@
             this.openBtn.UseVisualStyleBackColor = true;
             this.openBtn.Click += new System.EventHandler(this.openBtn_Click);
             // 
+            // exportBtn
+            // 
+            this.exportBtn.Location = new System.Drawing.Point(93, 308);
+            this.exportBtn.Name = "exportBtn";
+            this.exportBtn.Size = new System.Drawing.Size(75, 23);
+            this.exportBtn.TabIndex = 17;
+            this.exportBtn.Text = "button12";
+            this.exportBtn.UseVisualStyleBackColor = true;
+            this.exportBtn.Click += new System.EventHandler(this.exportBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(949, 459);
+            this.Controls.Add(this.exportBtn);
             this.Controls.Add(this.openBtn);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.listBox1);
@@ -241,6 +253,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -267,6 +280,7 @@
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button openBtn;
+        private System.Windows.Forms.Button exportBtn;
     }
 }
 

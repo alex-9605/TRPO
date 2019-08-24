@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
@@ -53,7 +54,9 @@ namespace Paint.App
         private void Form1_Load(object sender, EventArgs e)
         {
             this.pen = new System.Drawing.Pen(Color.Blue, 2F);
-            this.graphics = this.pictureBox1.CreateGraphics();
+            //this.graphics = this.pictureBox1.CreateGraphics();
+            InitConvas();
+
         }
         
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
@@ -409,6 +412,44 @@ namespace Paint.App
             this.changeManager = new ChangeManager.ChangeManager(this.listBox1.Items, again);
 
             this.Draw();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!this.shapes.Any())
+                return;
+
+            var result = MessageBox.Show("Хотите сохранить данные?", "Сохранение", MessageBoxButtons.YesNoCancel);
+            switch (result)
+            {
+                case DialogResult.Cancel:
+                    e.Cancel = true;
+                    break;
+
+                case DialogResult.Yes:
+                    this.saveButton_Click(sender, null);
+                    break;
+            }
+        }
+
+        private void exportBtn_Click(object sender, EventArgs e)
+        {
+            var saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Text files(*.bmp)|*.bmp";
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            // получаем выбранный файл
+            string filename = saveFileDialog1.FileName;
+
+            this.pictureBox1.Image.Save(filename, ImageFormat.Bmp);
+        }
+
+        private void InitConvas()
+        {
+            var flag = new Bitmap(this.pictureBox1.Width, this.pictureBox1.Height);
+            this.graphics = Graphics.FromImage(flag);
+            this.graphics.DrawImage(flag, new System.Drawing.Point(0, 0));
+            this.pictureBox1.Image = flag;
         }
     }
 }
