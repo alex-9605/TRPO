@@ -21,8 +21,8 @@ namespace Paint.Object
 
         public Point End => this.end;
 
-        public Line(Graphics graphics, Point start, Point end, int width, Color color, Color fillColor, LineType type)
-            : base(graphics, width, color, fillColor, type)
+        public Line(Guid? id, Graphics graphics, Point start, Point end, int width, Color color, Color fillColor, LineType type)
+            : base(id, graphics, width, color, fillColor, type)
         {
             this.start = start;
             this.end = end;
@@ -76,10 +76,10 @@ namespace Paint.Object
                 another = this.start;
             }
 
-            var newStart = new Point(this.graphics, newPosition.X, Math.Abs(this.start.Y - this.end.Y));
-            var newEnd = new Point(this.graphics, Math.Abs(this.start.X - this.end.X), newPosition.Y);
+            var newStart = new Point(null, this.graphics, newPosition.X, Math.Abs(this.start.Y - this.end.Y));
+            var newEnd = new Point(null, this.graphics, Math.Abs(this.start.X - this.end.X), newPosition.Y);
 
-            return new Line(this.graphics, newStart, newEnd, this.width, this.color, this.fillColor, this.type);
+            return new Line(null, this.graphics, newStart, newEnd, this.width, this.color, this.fillColor, this.type);
         }
 
         public override void Select()
@@ -104,8 +104,8 @@ namespace Paint.Object
 
             return new Bounds
             {
-                Left = new Point(this.graphics, xMin, yMin),
-                Top = new Point(this.graphics, xMax, yMax)
+                Left = new Point(null, this.graphics, xMin, yMin),
+                Top = new Point(null, this.graphics, xMax, yMax)
             };
         }
 

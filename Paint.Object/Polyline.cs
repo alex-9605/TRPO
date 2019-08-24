@@ -16,8 +16,8 @@ namespace Paint.Object
 
         public Point[] Points => this.points.ToArray();
 
-        public Polyline(Graphics graphics, List<Point> points, int width, Color color, Color fillColor, LineType type)
-            : this(graphics, width, color, fillColor, type)
+        public Polyline(Guid? id, Graphics graphics, List<Point> points, int width, Color color, Color fillColor, LineType type)
+            : this(id, graphics, width, color, fillColor, type)
         {
             this.points = points;
             BuildMarkers();
@@ -38,8 +38,8 @@ namespace Paint.Object
             }
         }
 
-        public Polyline(Graphics graphics, int width, Color color, Color fillColor, LineType type)
-            : base(graphics, width, color, fillColor, type)
+        public Polyline(Guid? id, Graphics graphics, int width, Color color, Color fillColor, LineType type)
+            : base(id, graphics, width, color, fillColor, type)
         {
             this.points = new List<Point>();
             this.markers = new List<Rectangle>();
@@ -102,9 +102,9 @@ namespace Paint.Object
             var deltaY = newPosition.Y - yMin;
 
             var newPoints = this.points
-                .Select(p => new Point(this.graphics, p.X + deltaX, p.Y + deltaY))
+                .Select(p => new Point(null, this.graphics, p.X + deltaX, p.Y + deltaY))
                 .ToList();
-            return new Polyline(this.graphics, newPoints, this.width, this.color, this.fillColor, this.type);
+            return new Polyline(null, this.graphics, newPoints, this.width, this.color, this.fillColor, this.type);
         }
 
         protected override Bounds GetBounds()
@@ -116,8 +116,8 @@ namespace Paint.Object
 
             return new Bounds
             {
-                Left = new Point(this.graphics, xMin, yMin),
-                Top = new Point(this.graphics, xMax, yMax)
+                Left = new Point(null, this.graphics, xMin, yMin),
+                Top = new Point(null, this.graphics, xMax, yMax)
             };
         }
 

@@ -9,6 +9,8 @@ namespace Paint.Object
 {
     public interface IShape
     {
+        Guid Id { get; }
+
         string Name { get; }
 
         void Draw();

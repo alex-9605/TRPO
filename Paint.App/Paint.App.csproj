@@ -61,6 +61,12 @@
     <Compile Include="ChangeManager\CutShapeInfo.cs" />
     <Compile Include="ChangeManager\DeleteChangeInfo.cs" />
     <Compile Include="ChangeManager\ShapeChangeInfo.cs" />
+    <Compile Include="Dto\ChangeInfoDto\AddShapeChangeInfoDto.cs" />
+    <Compile Include="Dto\ChangeInfoDto\BaseChangeInfoDto.cs" />
+    <Compile Include="Dto\ChangeInfoDto\CopyChangeInfoDto.cs" />
+    <Compile Include="Dto\ChangeInfoDto\CutChangeInfoDto.cs" />
+    <Compile Include="Dto\ChangeInfoDto\DeleteShapeChangeInfoDto.cs" />
+    <Compile Include="Dto\ChangeInfoDto\ShapeChangeInfoDto.cs" />
     <Compile Include="Dto\CircleDto.cs" />
     <Compile Include="Dto\EllipseDto.cs" />
     <Compile Include="Dto\LineDto.cs" />

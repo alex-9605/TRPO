@@ -17,8 +17,12 @@ namespace Paint.Object
         public int X { get; private set; }
         public int Y { get; private set; }
 
-        public Point(Graphics graphics, int x, int y)
+        public Guid Id { get; }
+
+        public Point(Guid? id, Graphics graphics, int x, int y)
         {
+            this.Id = id ?? Guid.NewGuid();
+
             this.graphics = graphics;
             this.X = x;
             this.Y = y;
@@ -46,7 +50,7 @@ namespace Paint.Object
 
         public IShape Copy(Point newPosition)
         {
-            return new Point(this.graphics, newPosition.X, newPosition.Y);
+            return new Point(null, this.graphics, newPosition.X, newPosition.Y);
         }
 
         public void Select()
@@ -62,6 +66,21 @@ namespace Paint.Object
         public void Change(Point markerPoint, Point point)
         {
             throw new NotImplementedException();
+        }
+
+        public override bool Equals(object other)
+        {
+            if (other == null)
+                return false;
+
+            if (object.ReferenceEquals(this, other))
+                return true;
+
+            var anotherShape = other as IShape;
+            if (anotherShape == null)
+                return false;
+
+            return this.Id == anotherShape.Id;
         }
     }
 }

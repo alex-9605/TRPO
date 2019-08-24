@@ -9,21 +9,23 @@ namespace Paint.Object
 {
     public class Ellipse : Shape, IShape
     {
+
         private Rectangle contour;
         private List<Rectangle> markers;
 
         public override string Name => "Эллипс";
 
-        public Point Position => new Point(null, this.contour.X, this.contour.Y);
+        public Point Position => new Point(null, null, this.contour.X, this.contour.Y);
 
         public int RectWidth => this.contour.Width;
 
         public int RectHeight => this.contour.Height;
 
-        public Ellipse(Graphics graphics, Point left, int rectWidth, int rectHeight, 
+        public Ellipse(Guid? id, Graphics graphics, Point left, int rectWidth, int rectHeight, 
             int width, Color color, Color fillColor, LineType type)
-            : base(graphics, width, color, fillColor, type)
+            : base(id, graphics, width, color, fillColor, type)
         {
+
             this.markers = new List<Rectangle>();
 
             this.contour = new Rectangle(left.X, left.Y, rectWidth, rectHeight);
@@ -100,7 +102,7 @@ namespace Paint.Object
 
         public override IShape Copy(Point newPosition)
         {
-            return new Ellipse(this.graphics, newPosition, this.contour.Width, this.contour.Height, this.width, this.color, this.fillColor, this.type);
+            return new Ellipse(null, this.graphics, newPosition, this.contour.Width, this.contour.Height, this.width, this.color, this.fillColor, this.type);
         }
 
         public override bool IsInMarkers(Point point)
@@ -112,8 +114,8 @@ namespace Paint.Object
         {
             return new Bounds
             {
-                Left = new Point(this.graphics, this.contour.X, this.contour.Y),
-                Top = new Point(this.graphics, this.contour.Right, this.contour.Bottom)
+                Left = new Point(null, this.graphics, this.contour.X, this.contour.Y),
+                Top = new Point(null, this.graphics, this.contour.Right, this.contour.Bottom)
             };
         }
 

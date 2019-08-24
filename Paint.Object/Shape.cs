@@ -39,8 +39,12 @@ namespace Paint.Object
 
         public LineType LineType => this.type;
 
-        public Shape(Graphics graphics, int width, Color color, Color fillColor, LineType type)
+        public Guid Id { get; }
+
+        public Shape(Guid? id, Graphics graphics, int width, Color color, Color fillColor, LineType type)
         {
+            this.Id = id ?? Guid.NewGuid();
+
             this.isSelected = false;
 
             this.graphics = graphics;
@@ -90,5 +94,20 @@ namespace Paint.Object
         protected abstract Bounds GetBounds();
 
         public abstract void Change(Point markerPoint, Point point);
+
+        public override bool Equals(object other)
+        {
+            if (other == null)
+                return false;
+
+            if (object.ReferenceEquals(this, other))
+                return true;
+
+            var anotherShape = other as IShape;
+            if (anotherShape == null)
+                return false;
+
+            return this.Id == anotherShape.Id;
+        }
     }
 }

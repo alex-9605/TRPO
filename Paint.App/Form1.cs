@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using Paint.App.ChangeManager;
 using Paint.App.Dto;
 using Point = Paint.Object.Point;
+using Paint.App.Dto.ChangeInfoDto;
 
 namespace Paint.App
 {
@@ -61,7 +62,7 @@ namespace Paint.App
             {
                 case ToolType.Line:
                     {
-                        var line = new Line(this.graphics, this.startPoint, new Point(this.graphics, e.X, e.Y), 1,
+                        var line = new Line(null, this.graphics, this.startPoint, new Point(null, this.graphics, e.X, e.Y), 1,
                             (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
 
                         this.changeManager.SaveChange(new AddShapeInfo(line, this.shapes));
@@ -76,9 +77,9 @@ namespace Paint.App
                     {
                         var xMin = this.startPoint.X < e.X ? this.startPoint.X : e.X;
                         var yMin = this.startPoint.Y < e.Y ? this.startPoint.Y : e.Y;
-                        var top = new Point(this.graphics, xMin, yMin);
+                        var top = new Point(null, this.graphics, xMin, yMin);
                         
-                        var ellipse = new Ellipse(this.graphics, top, Math.Abs(e.X - this.startPoint.X), Math.Abs(e.Y - this.startPoint.Y)
+                        var ellipse = new Ellipse(null, this.graphics, top, Math.Abs(e.X - this.startPoint.X), Math.Abs(e.Y - this.startPoint.Y)
                             , 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
 
                         this.changeManager.SaveChange(new AddShapeInfo(ellipse, this.shapes));
@@ -94,14 +95,14 @@ namespace Paint.App
                     {
                         if (e.Button == MouseButtons.Left)
                         {
-                            this.polyline.AddPoint(new Point(this.graphics, e.X, e.Y));
+                            this.polyline.AddPoint(new Point(null, this.graphics, e.X, e.Y));
                         }
                         else if (e.Button == MouseButtons.Right)
                         {
                             this.changeManager.SaveChange(new AddShapeInfo(this.polyline, this.shapes));
                             this.shapes.Add(this.polyline);
                             this.polyline.Draw();
-                            this.polyline = new Polyline(this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua,LineType.Solid);
+                            this.polyline = new Polyline(null, this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua,LineType.Solid);
 
                             this.startPoint = null;
                         }
@@ -112,14 +113,14 @@ namespace Paint.App
                     {
                         if (e.Button == MouseButtons.Left)
                         {
-                            this.polygon.AddPoint(new Point(this.graphics, e.X, e.Y));
+                            this.polygon.AddPoint(new Point(null, this.graphics, e.X, e.Y));
                         }
                         else if (e.Button == MouseButtons.Right)
                         {
                             this.changeManager.SaveChange(new AddShapeInfo(this.polygon, this.shapes));
                             this.shapes.Add(this.polygon);
                             this.polygon.Draw();
-                            this.polygon = new Polygon(this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
+                            this.polygon = new Polygon(null, this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
                             this.startPoint = null;
                         }
                     }
@@ -130,7 +131,7 @@ namespace Paint.App
                         var xMin = this.startPoint.X < e.X ? this.startPoint.X : e.X;
                         var yMin = this.startPoint.Y < e.Y ? this.startPoint.Y : e.Y;
 
-                        var circle = new Circle(this.graphics, new Point(this.graphics, xMin, yMin), Math.Abs(e.Y - this.startPoint.Y), 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
+                        var circle = new Circle(null, this.graphics, new Point(null, this.graphics, xMin, yMin), Math.Abs(e.Y - this.startPoint.Y), 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
 
                         this.changeManager.SaveChange(new AddShapeInfo(circle, this.shapes));
 
@@ -142,7 +143,7 @@ namespace Paint.App
 
                 case ToolType.Delete:
                     {
-                        var point = new Point(this.graphics, e.X, e.Y);
+                        var point = new Point(null, this.graphics, e.X, e.Y);
                         var deleted = this.shapes.LastOrDefault(p => p.IsInBounds(point));
                         if (deleted != null)
                         {
@@ -155,7 +156,7 @@ namespace Paint.App
 
                 case ToolType.Selection:
                     {
-                        var point = new Point(this.graphics, e.X, e.Y);
+                        var point = new Point(null, this.graphics, e.X, e.Y);
 
                         if (this.selectedShape != null)
                         {
@@ -222,7 +223,7 @@ namespace Paint.App
                 case ToolType.Cut:
                     if (this.selectedShape == null)
                     {
-                        var point = new Point(this.graphics, e.X, e.Y);
+                        var point = new Point(null, this.graphics, e.X, e.Y);
                         this.selectedShape = this.shapes.LastOrDefault(p => p.IsInBounds(point));
                     }
                     else
@@ -231,7 +232,7 @@ namespace Paint.App
                         {
                             case ToolType.Copy:
                                 {
-                                    var copiedShape = this.selectedShape.Copy(new Point(this.graphics, e.X, e.Y));
+                                    var copiedShape = this.selectedShape.Copy(new Point(null, this.graphics, e.X, e.Y));
                                     this.changeManager.SaveChange(new CopyShapeChangeInfo(copiedShape, this.shapes));
                                     this.shapes.Add(copiedShape);
                                     copiedShape.Draw();
@@ -240,7 +241,7 @@ namespace Paint.App
 
                             case ToolType.Cut:
                                 {
-                                    var copiedShape = this.selectedShape.Copy(new Point(this.graphics, e.X, e.Y));
+                                    var copiedShape = this.selectedShape.Copy(new Point(null, this.graphics, e.X, e.Y));
                                     this.shapes.Add(copiedShape);
 
                                     this.changeManager.SaveChange(new CutShapeInfo(this.selectedShape, copiedShape, this.shapes, this.shapes.IndexOf(this.selectedShape), this.shapes.IndexOf(copiedShape) - 1));
@@ -266,7 +267,7 @@ namespace Paint.App
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            this.startPoint = new Point(this.graphics, e.X, e.Y);
+            this.startPoint = new Point(null, this.graphics, e.X, e.Y);
         }
         
         private void Line_button1_Click(object sender, EventArgs e)
@@ -282,7 +283,7 @@ namespace Paint.App
         private void Polyline_button3_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Polyline;
-            this.polyline = new Polyline(this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
+            this.polyline = new Polyline(null, this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
         }
 
         private void Circle_button4_Click(object sender, EventArgs e)
@@ -293,7 +294,7 @@ namespace Paint.App
         private void Polygon_button5_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Polygon;
-            this.polygon = new Polygon(this.graphics,1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua,LineType.Solid);
+            this.polygon = new Polygon(null, this.graphics,1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua,LineType.Solid);
         }
 
         private void Clear_button6_Click(object sender, EventArgs e)
@@ -359,7 +360,9 @@ namespace Paint.App
             // получаем выбранный файл
             string filename = saveFileDialog1.FileName;
 
-            var dtos = AutomapperConfig.Mapper.DefaultContext.Mapper.Map<ShapeDto[]>(this.shapes.ToArray());
+            
+            var dtos = AutomapperConfig.Mapper.DefaultContext.Mapper.Map<BaseChangeInfoDto[]>(changeManager.UndoItems);
+            //AutomapperConfig.Mapper.DefaultContext.Mapper.Map<ShapeDto[]>(AutomapperConfig.Mapper.DefaultContext.Mapper.Map<BaseChangeInfoDto[]>(changeManager.UndoItems));
 
             var settings = new JsonSerializerSettings
             {
@@ -384,17 +387,27 @@ namespace Paint.App
             // читаем файл в строку
             string fileText = System.IO.File.ReadAllText(filename);
 
+            this.shapes.Clear();
+
             var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects
             };
 
-            var newDtos = JsonConvert.DeserializeObject<ShapeDto[]>(fileText, settings);
+
+            var newDtos = JsonConvert.DeserializeObject<BaseChangeInfoDto[]>(fileText, settings);
 
             this.graphics.Clear(Color.White);
 
-            var again = AutomapperConfig.Mapper.DefaultContext.Mapper.Map<IShape[]>(newDtos, opt => opt.Items["graphic"] = this.graphics);
-            this.shapes = again.ToList();
+            var again = AutomapperConfig.Mapper.DefaultContext.Mapper.Map<ChangeInfo[]>(newDtos, opt =>
+            {
+                opt.Items["graphic"] = this.graphics;
+                opt.Items["commonList"] = this.shapes;
+            });
+
+            
+            this.changeManager = new ChangeManager.ChangeManager(this.listBox1.Items, again);
+
             this.Draw();
         }
     }

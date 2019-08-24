@@ -14,14 +14,14 @@ namespace Paint.Object
 
         public override string Name => "Окружность";
 
-        public Point Position => new Point(null, this.contour.X, this.contour.Y);
+        public Point Position => new Point(null, null, this.contour.X, this.contour.Y);
 
         public int RectWidth => this.contour.Width;
 
 
-        public Circle (Graphics graphics, Point left, int rectWidth, 
+        public Circle (Guid? id, Graphics graphics, Point left, int rectWidth, 
             int width, Color color, Color fillColor, LineType type)
-            : base(graphics, width, color, fillColor, type)
+            : base(id, graphics, width, color, fillColor, type)
         {
             this.markers = new List<Rectangle>();
             this.contour = new Rectangle
@@ -98,7 +98,7 @@ namespace Paint.Object
 
         public override IShape Copy(Point newPosition)
         {
-            return new Circle(this.graphics, newPosition, this.contour.Height, this.width, this.color, this.fillColor, this.type);
+            return new Circle(null, this.graphics, newPosition, this.contour.Height, this.width, this.color, this.fillColor, this.type);
         }
 
         public override void Select()
@@ -116,8 +116,8 @@ namespace Paint.Object
         {
             return new Bounds
             {
-                Left = new Point(this.graphics, this.contour.X, this.contour.Y),
-                Top = new Point(this.graphics, this.contour.Right, this.contour.Bottom)
+                Left = new Point(null, this.graphics, this.contour.X, this.contour.Y),
+                Top = new Point(null, this.graphics, this.contour.Right, this.contour.Bottom)
             };
         }
 

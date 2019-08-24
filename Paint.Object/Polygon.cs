@@ -9,13 +9,15 @@ namespace Paint.Object
 {
     public class Polygon : Polyline
     {
-        public Polygon(Graphics graphics, int width, Color color, Color fillColor, LineType type) 
-            : base(graphics, width, color, fillColor, type)
+        public override string Name => "Полигон";
+
+        public Polygon(Guid? id, Graphics graphics, int width, Color color, Color fillColor, LineType type) 
+            : base(id, graphics, width, color, fillColor, type)
         {
         }
 
-        public Polygon(Graphics graphics, List<Point> points, int width, Color color, Color fillColor, LineType type)
-            : base(graphics, points, width, color, fillColor, type)
+        public Polygon(Guid? id, Graphics graphics, List<Point> points, int width, Color color, Color fillColor, LineType type)
+            : base(id, graphics, points, width, color, fillColor, type)
         {
         }
 
@@ -28,9 +30,9 @@ namespace Paint.Object
             var deltaY = newPosition.Y - yMin;
 
             var newPoints = this.points
-                .Select(p => new Point(this.graphics, p.X + deltaX, p.Y + deltaY))
+                .Select(p => new Point(null, this.graphics, p.X + deltaX, p.Y + deltaY))
                 .ToList();
-            return new Polygon(this.graphics, newPoints, this.width, this.color, this.fillColor, this.type);
+            return new Polygon(null, this.graphics, newPoints, this.width, this.color, this.fillColor, this.type);
         }
 
         public override void Draw()
