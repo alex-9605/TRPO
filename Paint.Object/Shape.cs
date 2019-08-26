@@ -53,7 +53,7 @@ namespace Paint.Object
             this.fillColor = fillColor;
             this.type = type;
 
-            this.pen = new Pen(this.color);
+            this.pen = new Pen(this.color, width);
         }
 
         public bool IsSelected => this.isSelected;

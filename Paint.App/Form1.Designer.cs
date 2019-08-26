@@ -47,7 +47,9 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.openBtn = new System.Windows.Forms.Button();
             this.exportBtn = new System.Windows.Forms.Button();
+            this.lineWidthSpinBtn = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lineWidthSpinBtn)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -224,15 +226,39 @@
             this.exportBtn.Name = "exportBtn";
             this.exportBtn.Size = new System.Drawing.Size(75, 23);
             this.exportBtn.TabIndex = 17;
-            this.exportBtn.Text = "button12";
+            this.exportBtn.Text = "Export image";
             this.exportBtn.UseVisualStyleBackColor = true;
             this.exportBtn.Click += new System.EventHandler(this.exportBtn_Click);
+            // 
+            // lineWidthSpinBtn
+            // 
+            this.lineWidthSpinBtn.Location = new System.Drawing.Point(114, 23);
+            this.lineWidthSpinBtn.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.lineWidthSpinBtn.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.lineWidthSpinBtn.Name = "lineWidthSpinBtn";
+            this.lineWidthSpinBtn.Size = new System.Drawing.Size(120, 20);
+            this.lineWidthSpinBtn.TabIndex = 18;
+            this.lineWidthSpinBtn.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.lineWidthSpinBtn.ValueChanged += new System.EventHandler(this.lineWidthSpinBtn_ValueChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(949, 459);
+            this.Controls.Add(this.lineWidthSpinBtn);
             this.Controls.Add(this.exportBtn);
             this.Controls.Add(this.openBtn);
             this.Controls.Add(this.saveButton);
@@ -251,11 +277,14 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lineWidthSpinBtn)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -281,6 +310,7 @@
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button openBtn;
         private System.Windows.Forms.Button exportBtn;
+        private System.Windows.Forms.NumericUpDown lineWidthSpinBtn;
     }
 }
 

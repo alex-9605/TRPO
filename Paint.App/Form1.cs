@@ -55,7 +55,10 @@ namespace Paint.App
         {
             this.pen = new System.Drawing.Pen(Color.Blue, 2F);
 
-            this.graphics = this.pictureBox1.CreateGraphics();
+            var bitmap = new Bitmap(this.pictureBox1.Width, this.pictureBox1.Height);
+            this.pictureBox1.Image = bitmap;
+            this.graphics = Graphics.FromImage(this.pictureBox1.Image);
+            this.pictureBox1.Invalidate();
         }
         
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
@@ -64,7 +67,7 @@ namespace Paint.App
             {
                 case ToolType.Line:
                     {
-                        var line = new Line(null, this.graphics, this.startPoint, new Point(null, this.graphics, e.X, e.Y), 1,
+                        var line = new Line(null, this.graphics, this.startPoint, new Point(null, this.graphics, e.X, e.Y),  (int)this.lineWidthSpinBtn.Value,
                             (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
 
                         this.changeManager.SaveChange(new AddShapeInfo(line, this.shapes));
@@ -264,7 +267,7 @@ namespace Paint.App
                     }
                     break;
             }
-
+            this.pictureBox1.Invalidate();
         }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
@@ -301,12 +304,13 @@ namespace Paint.App
 
         private void Clear_button6_Click(object sender, EventArgs e)
         {
-            this.graphics.Clear(Color.White);
+            this.graphics.Clear(default(Color));
             Refresh();
             this.shapes.Clear();
             this.selectedShape = null;
             this.startPoint = null;
             this.changeManager.Clear();
+            this.pictureBox1.Invalidate();
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -317,13 +321,14 @@ namespace Paint.App
 
         private void Draw()
         {
-            this.graphics.Clear(Color.White);
+            this.graphics.Clear(default(Color));
             Refresh();
 
             foreach (var shape in this.shapes)
             {
                 shape.Draw();
             }
+            this.pictureBox1.Invalidate();
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -439,19 +444,69 @@ namespace Paint.App
                 return;
             // получаем выбранный файл
             string filename = saveFileDialog1.FileName;
-            //new bitmap object to save the image        
-            Bitmap bmp = new Bitmap(this.pictureBox1.Width, this.pictureBox1.Height);
-            //Drawing control to the bitmap        
-            this.pictureBox1.DrawToBitmap(bmp, new Rectangle(0, 0, this.pictureBox1.Width, this.pictureBox1.Height));
-            bmp.Save(filename, ImageFormat.Bmp);
+            
+            this.pictureBox1.Invalidate();
+            this.pictureBox1.Image.Save(filename);
         }
 
-        private void InitConvas()
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            var flag = new Bitmap(this.pictureBox1.Width, this.pictureBox1.Height);
-            this.graphics = Graphics.FromImage(flag);
-            this.graphics.DrawImage(flag, new System.Drawing.Point(0, 0));
-            this.pictureBox1.Image = flag;
+            if (!e.Control)
+            {
+                return;
+            }
+
+            switch (e.KeyCode)
+            {
+                case Keys.L:
+                    this.toolType = ToolType.Line;
+                    break;
+
+                case Keys.E:
+                    this.toolType = ToolType.Ellipse;
+                    break;
+
+                case Keys.D0:
+                    this.toolType = ToolType.Circle;
+                    break;
+
+                case Keys.P:
+                    this.Polygon_button5_Click(null, null);
+                    break;
+
+                case Keys.D1:
+                    this.Polyline_button3_Click(null, null);
+                    break;
+
+                case Keys.C:
+                    this.toolType = ToolType.Copy;
+                    break;
+
+                case Keys.X:
+                    this.toolType = ToolType.Cut;
+                    break;
+
+                case Keys.D:
+                    this.toolType = ToolType.Delete;
+                    break;
+
+                case Keys.A:
+                    this.Clear_button6_Click(null, null);
+                    break;
+
+                case Keys.Z:
+                    this.button11_Click(null, null);
+                    break;
+
+                case Keys.R:
+                    this.redoButton_Click(null, null);
+                    break;
+            }
+        }
+
+        private void lineWidthSpinBtn_ValueChanged(object sender, EventArgs e)
+        {
+            this.pen = new System.Drawing.Pen((Color)comboBox1.Items[comboBox1.SelectedIndex], (float)this.lineWidthSpinBtn.Value);
         }
     }
 }
