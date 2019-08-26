@@ -54,9 +54,8 @@ namespace Paint.App
         private void Form1_Load(object sender, EventArgs e)
         {
             this.pen = new System.Drawing.Pen(Color.Blue, 2F);
-            //this.graphics = this.pictureBox1.CreateGraphics();
-            InitConvas();
 
+            this.graphics = this.pictureBox1.CreateGraphics();
         }
         
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
@@ -440,8 +439,11 @@ namespace Paint.App
                 return;
             // получаем выбранный файл
             string filename = saveFileDialog1.FileName;
-
-            this.pictureBox1.Image.Save(filename, ImageFormat.Bmp);
+            //new bitmap object to save the image        
+            Bitmap bmp = new Bitmap(this.pictureBox1.Width, this.pictureBox1.Height);
+            //Drawing control to the bitmap        
+            this.pictureBox1.DrawToBitmap(bmp, new Rectangle(0, 0, this.pictureBox1.Width, this.pictureBox1.Height));
+            bmp.Save(filename, ImageFormat.Bmp);
         }
 
         private void InitConvas()
