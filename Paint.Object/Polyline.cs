@@ -61,7 +61,7 @@ namespace Paint.Object
             var markerIndex = this.markers.FindIndex(p => p.Contains(markerPoint.X, markerPoint.Y));
             this.markers[markerIndex] = marker;
 
-            this.Draw();
+            this.Draw(this.pen);
         }
 
         public override void Select()
@@ -86,9 +86,9 @@ namespace Paint.Object
             });
         }
         
-        public override void Draw()
+        public override void Draw(Pen pen)
         {
-            base.Draw();
+            base.Draw(pen);
             this.graphics.DrawLines(this.pen, this.points.Select(p => 
                 new System.Drawing.Point(p.X, p.Y)).ToArray());
         }

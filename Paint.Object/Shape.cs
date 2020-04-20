@@ -54,14 +54,16 @@ namespace Paint.Object
             this.type = type;
 
             this.pen = new Pen(this.color, width);
+            pen.DashStyle = (DashStyle) this.LineType;
         }
 
         public bool IsSelected => this.isSelected;
 
         public abstract IShape Copy(Point newPosition);
 
-        public virtual void Draw()
+        public virtual void Draw(Pen pen)
         {
+            this.pen = pen;
             this.isSelected = false;
         }
 

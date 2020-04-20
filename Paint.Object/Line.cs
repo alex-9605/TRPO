@@ -39,7 +39,7 @@ namespace Paint.Object
                 this.end = point;
             }
 
-            this.Draw();
+            this.Draw(this.pen);
         }
 
         private bool IsInEndMarker(Point point)
@@ -56,9 +56,10 @@ namespace Paint.Object
                                                         this.start.Y + MarkerWidth > point.Y;
         }
 
-        public override void Draw()
+        public override void Draw(Pen pen)
         {
-            base.Draw();
+            base.Draw(pen);
+
 
             this.graphics.DrawLine(this.pen, new System.Drawing.Point(this.start.X, this.start.Y), new System.Drawing.Point(this.end.X, this.end.Y));
         }

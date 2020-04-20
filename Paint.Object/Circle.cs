@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,12 +88,16 @@ namespace Paint.Object
             }
 
             this.BuildMarkers();
-            this.Draw();
+            this.Draw(this.pen);
         }
 
-        public override void Draw()
+        public override void Draw(Pen pen)
         {
-            this.graphics.DrawEllipse(this.pen, this.contour);
+            this.graphics.DrawEllipse(pen, this.contour);
+            using (var brush = new SolidBrush(this.FillColor))
+            {
+                this.graphics.FillEllipse(brush, this.contour);
+            }
         }
 
 

@@ -28,7 +28,7 @@ namespace Paint.Object
             this.Y = y;
         }
         
-        public void Draw()
+        public void Draw(Pen pen)
         {
         }
 

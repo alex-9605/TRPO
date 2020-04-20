@@ -85,7 +85,7 @@ namespace Paint.Object
             }
 
             this.BuildMarkers();
-            this.Draw();
+            this.Draw(this.pen);
         }
 
 
@@ -95,9 +95,14 @@ namespace Paint.Object
             this.DrawMarkers();
         }
 
-        public override void Draw()
+        public override void Draw(Pen pen)
         {
+            this.pen = pen;
             this.graphics.DrawEllipse(this.pen, this.contour);
+            using (var brush = new SolidBrush(this.FillColor))
+            {
+                this.graphics.FillEllipse(brush, this.contour);
+            }
         }
 
         public override IShape Copy(Point newPosition)

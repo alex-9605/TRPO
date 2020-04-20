@@ -13,7 +13,7 @@ namespace Paint.Object
 
         string Name { get; }
 
-        void Draw();
+        void Draw(Pen pen);
 
         bool IsInBounds(Point point);
 

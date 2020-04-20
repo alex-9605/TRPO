@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Net;
@@ -37,6 +38,7 @@ namespace Paint.App
             this.changeManager = new ChangeManager.ChangeManager(this.listBox1.Items);
             this.shapes = new List<IShape>();
             TakeColor();
+            TakeFillColor();
         }
 
         void TakeColor()
@@ -49,6 +51,20 @@ namespace Paint.App
             comboBox1.Items.Insert(5, Color.Gold);
             if (comboBox1.Items.Count != 0)
                 comboBox1.SelectedIndex = 0;
+            if (cbxLineType.Items.Count > 0)
+                cbxLineType.SelectedIndex = 0;
+        }
+
+        void TakeFillColor()
+        {
+            comboBox2.Items.Insert(0, Color.White);
+            comboBox2.Items.Insert(1, Color.Coral);
+            comboBox2.Items.Insert(2, Color.Blue);
+            comboBox2.Items.Insert(3, Color.Chartreuse);
+            comboBox2.Items.Insert(4, Color.Fuchsia);
+            comboBox2.Items.Insert(5, Color.Gold);
+            if (comboBox2.Items.Count != 0)
+                comboBox2.SelectedIndex = 0;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -73,7 +89,10 @@ namespace Paint.App
                         this.changeManager.SaveChange(new AddShapeInfo(line, this.shapes));
 
                         this.shapes.Add(line);
-                        line.Draw();
+                        line.Draw(new Pen((Color)comboBox1.Items[comboBox1.SelectedIndex], (int)this.lineWidthSpinBtn.Value)
+                        {
+                            DashStyle = (DashStyle)this.cbxLineType.SelectedIndex
+                        });
                         this.startPoint = null;
                     }
                     break;
@@ -85,12 +104,15 @@ namespace Paint.App
                         var top = new Point(null, this.graphics, xMin, yMin);
                         
                         var ellipse = new Ellipse(null, this.graphics, top, Math.Abs(e.X - this.startPoint.X), Math.Abs(e.Y - this.startPoint.Y)
-                            , 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
+                            , (int)this.lineWidthSpinBtn.Value, (Color)comboBox1.Items[comboBox1.SelectedIndex], (Color)comboBox2.Items[comboBox2.SelectedIndex], LineType.Solid);
 
                         this.changeManager.SaveChange(new AddShapeInfo(ellipse, this.shapes));
 
                         this.shapes.Add(ellipse);
-                        ellipse.Draw();
+                        ellipse.Draw(new Pen((Color)comboBox1.Items[comboBox1.SelectedIndex], (int)this.lineWidthSpinBtn.Value)
+                        {
+                            DashStyle = (DashStyle)this.cbxLineType.SelectedIndex
+                        });
                         this.startPoint = null;
                     }
                     break;
@@ -106,8 +128,11 @@ namespace Paint.App
                         {
                             this.changeManager.SaveChange(new AddShapeInfo(this.polyline, this.shapes));
                             this.shapes.Add(this.polyline);
-                            this.polyline.Draw();
-                            this.polyline = new Polyline(null, this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua,LineType.Solid);
+                            this.polyline.Draw(new Pen((Color)comboBox1.Items[comboBox1.SelectedIndex], (int)this.lineWidthSpinBtn.Value)
+                            {
+                                DashStyle = (DashStyle)this.cbxLineType.SelectedIndex
+                            });
+                            this.polyline = new Polyline(null, this.graphics, (int)this.lineWidthSpinBtn.Value, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua,LineType.Solid);
 
                             this.startPoint = null;
                         }
@@ -124,8 +149,11 @@ namespace Paint.App
                         {
                             this.changeManager.SaveChange(new AddShapeInfo(this.polygon, this.shapes));
                             this.shapes.Add(this.polygon);
-                            this.polygon.Draw();
-                            this.polygon = new Polygon(null, this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
+                            this.polygon.Draw(new Pen((Color)comboBox1.Items[comboBox1.SelectedIndex], (int)this.lineWidthSpinBtn.Value)
+                            {
+                                DashStyle = (DashStyle)this.cbxLineType.SelectedIndex
+                            });
+                            this.polygon = new Polygon(null, this.graphics, (int)this.lineWidthSpinBtn.Value, (Color)comboBox1.Items[comboBox1.SelectedIndex], (Color)comboBox2.Items[comboBox2.SelectedIndex], LineType.Solid);
                             this.startPoint = null;
                         }
                     }
@@ -136,12 +164,15 @@ namespace Paint.App
                         var xMin = this.startPoint.X < e.X ? this.startPoint.X : e.X;
                         var yMin = this.startPoint.Y < e.Y ? this.startPoint.Y : e.Y;
 
-                        var circle = new Circle(null, this.graphics, new Point(null, this.graphics, xMin, yMin), Math.Abs(e.Y - this.startPoint.Y), 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
+                        var circle = new Circle(null, this.graphics, new Point(null, this.graphics, xMin, yMin), Math.Abs(e.Y - this.startPoint.Y), (int)this.lineWidthSpinBtn.Value, (Color)comboBox1.Items[comboBox1.SelectedIndex], (Color)comboBox2.Items[comboBox2.SelectedIndex], LineType.Solid);
 
                         this.changeManager.SaveChange(new AddShapeInfo(circle, this.shapes));
 
                         this.shapes.Add(circle);
-                        circle.Draw();
+                        circle.Draw(new Pen((Color)comboBox1.Items[comboBox1.SelectedIndex], (int)this.lineWidthSpinBtn.Value)
+                        {
+                            DashStyle = (DashStyle)this.cbxLineType.SelectedIndex
+                        });
                         this.startPoint = null;
                     }
                     break;
@@ -191,15 +222,18 @@ namespace Paint.App
                                 }
 
                                 this.selectedShape = null;
-                                this.graphics.Clear(Color.White);
+                                this.graphics.Clear(SystemColors.ButtonFace);
                                 Refresh();
 
                                 foreach (var shape in this.shapes)
                                 {
-                                    shape.Draw();
+                                    shape.Draw(new Pen((Color)comboBox1.Items[comboBox1.SelectedIndex], (int)this.lineWidthSpinBtn.Value)
+                                    {
+                                        DashStyle = (DashStyle)this.cbxLineType.SelectedIndex
+                                    });
                                 }
 
-                                return;
+                                break;
                             }
                         }
 
@@ -213,12 +247,15 @@ namespace Paint.App
                         else
                         {
                             this.selectedShape = null;
-                            this.graphics.Clear(Color.White);
+                            this.graphics.Clear(SystemColors.ButtonFace);
                             Refresh();
 
                             foreach (var shape in this.shapes)
                             {
-                                shape.Draw();
+                                shape.Draw(new Pen((Color)comboBox1.Items[comboBox1.SelectedIndex], (int)this.lineWidthSpinBtn.Value)
+                                {
+                                    DashStyle = (DashStyle)this.cbxLineType.SelectedIndex
+                                });
                             }
                         }
                     }
@@ -240,7 +277,10 @@ namespace Paint.App
                                     var copiedShape = this.selectedShape.Copy(new Point(null, this.graphics, e.X, e.Y));
                                     this.changeManager.SaveChange(new CopyShapeChangeInfo(copiedShape, this.shapes));
                                     this.shapes.Add(copiedShape);
-                                    copiedShape.Draw();
+                                    copiedShape.Draw(new Pen((Color)comboBox1.Items[comboBox1.SelectedIndex], (int)this.lineWidthSpinBtn.Value)
+                                    {
+                                        DashStyle = (DashStyle)this.cbxLineType.SelectedIndex
+                                    });
                                 }
                                 break;
 
@@ -252,12 +292,15 @@ namespace Paint.App
                                     this.changeManager.SaveChange(new CutShapeInfo(this.selectedShape, copiedShape, this.shapes, this.shapes.IndexOf(this.selectedShape), this.shapes.IndexOf(copiedShape) - 1));
                                     
                                     this.shapes.Remove(this.selectedShape);
-                                    this.graphics.Clear(Color.White);
+                                    this.graphics.Clear(SystemColors.ButtonFace);
                                     Refresh();
 
                                     foreach (var shape in this.shapes)
                                     {
-                                        shape.Draw();
+                                        shape.Draw(new Pen((Color)comboBox1.Items[comboBox1.SelectedIndex], (int)this.lineWidthSpinBtn.Value)
+                                        {
+                                            DashStyle = (DashStyle)this.cbxLineType.SelectedIndex
+                                        });
                                     }
                                 }
                                 break;
@@ -288,7 +331,7 @@ namespace Paint.App
         private void Polyline_button3_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Polyline;
-            this.polyline = new Polyline(null, this.graphics, 1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua, LineType.Solid);
+            this.polyline = new Polyline(null, this.graphics, (int)this.lineWidthSpinBtn.Value, (Color)comboBox1.Items[comboBox1.SelectedIndex], (Color)comboBox2.Items[comboBox2.SelectedIndex], LineType.Solid);
         }
 
         private void Circle_button4_Click(object sender, EventArgs e)
@@ -299,7 +342,7 @@ namespace Paint.App
         private void Polygon_button5_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Polygon;
-            this.polygon = new Polygon(null, this.graphics,1, (Color)comboBox1.Items[comboBox1.SelectedIndex], Color.Aqua,LineType.Solid);
+            this.polygon = new Polygon(null, this.graphics, (int)this.lineWidthSpinBtn.Value, (Color)comboBox1.Items[comboBox1.SelectedIndex], (Color)comboBox2.Items[comboBox2.SelectedIndex], LineType.Solid);
         }
 
         private void Clear_button6_Click(object sender, EventArgs e)
@@ -313,7 +356,7 @@ namespace Paint.App
             this.pictureBox1.Invalidate();
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void btnCopy_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Copy;
             this.selectedShape = null;
@@ -326,27 +369,30 @@ namespace Paint.App
 
             foreach (var shape in this.shapes)
             {
-                shape.Draw();
+                shape.Draw(new Pen((Color)comboBox1.Items[comboBox1.SelectedIndex], (int)this.lineWidthSpinBtn.Value)
+                {
+                    DashStyle = (DashStyle)this.cbxLineType.SelectedIndex
+                });
             }
             this.pictureBox1.Invalidate();
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void btnDelete_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Delete;
         }
 
-        private void button9_Click(object sender, EventArgs e)
+        private void btnSelect_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Selection;
         }
 
-        private void button10_Click(object sender, EventArgs e)
+        private void btnCut_Click(object sender, EventArgs e)
         {
             this.toolType = ToolType.Cut;
         }
 
-        private void button11_Click(object sender, EventArgs e)
+        private void undoButton_Click(object sender, EventArgs e)
         {
             this.changeManager.Undo();
             this.Draw();
@@ -404,7 +450,7 @@ namespace Paint.App
 
             var newDtos = JsonConvert.DeserializeObject<BaseChangeInfoDto[]>(fileText, settings);
 
-            this.graphics.Clear(Color.White);
+            this.graphics.Clear(SystemColors.ButtonFace);
 
             var again = AutomapperConfig.Mapper.DefaultContext.Mapper.Map<ChangeInfo[]>(newDtos, opt =>
             {
@@ -495,7 +541,7 @@ namespace Paint.App
                     break;
 
                 case Keys.Z:
-                    this.button11_Click(null, null);
+                    this.undoButton_Click(null, null);
                     break;
 
                 case Keys.R:
@@ -507,6 +553,11 @@ namespace Paint.App
         private void lineWidthSpinBtn_ValueChanged(object sender, EventArgs e)
         {
             this.pen = new System.Drawing.Pen((Color)comboBox1.Items[comboBox1.SelectedIndex], (float)this.lineWidthSpinBtn.Value);
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
